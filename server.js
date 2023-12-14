@@ -1,15 +1,9 @@
 const express=require('express');
+const { route } = require('./routes/user.routes');
 
 // creating express application 
 const app= express();
-
-app.get('/', (req, res) => {
-    res.status(200).json({message:"This first server is created by express"})
-})
-
-app.post('/', (req, res) => {
-    app.status(200).json({message:"This first server is created by express"})
-})
+const router= express.Router();
 
 // port number 
 const port=4000;
