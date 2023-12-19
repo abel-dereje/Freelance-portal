@@ -1,19 +1,23 @@
 const express = require('express')
-const router = express.Router()
+const { signup } = require('../controllers/user.controller')
 
+const route = express.Router()
 
-router.post('/login', (req, res) => {
-    // Insert Login Code Here
+// Routs for signup
+route.post('/api/signup', signup)
+
+// Routs for login
+route.post('/login', (req, res) => {
+    
   let username = req.body.username;
   let password = req.body.password;
   res.send(`Username: ${username} Password: ${password}`);
 })
 
-// router.post('/signup', (req, res) => {
-//     app.status(200).json({message:"This first server is created by express"})
-// })
-// router.post('/logout', (req, res) => {
-//     app.status(200).json({message:"This first server is created by express"})
-// })
+// Routs for logout
+route.post('/logout', (req, res) => {
+  app.status(200).json({message:"This first server is created by express"})
+})
 
-module.exports = router;
+
+module.exports = route;
