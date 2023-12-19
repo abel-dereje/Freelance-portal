@@ -6,6 +6,9 @@ require('./config/db')
 const app= express();
 const router= express.Router();
 
+const bodyParser = require('express').json;
+app.use(bodyParser);
+
 // port number 
 const port=4000;
 
