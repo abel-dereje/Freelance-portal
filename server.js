@@ -1,5 +1,6 @@
 const express=require('express');
 const { route } = require('./routes/user.routes');
+require('./config/db')
 
 // creating express application 
 const app= express();
