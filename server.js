@@ -1,16 +1,19 @@
 // importing package using require 
 const express=require('express');
+const db_connect = require('./db/db-config');
+require('dotenv').config();
 
-// apply your Database on the top level
 
+// apply your Database on the top level methods 
+db_connect();
 
 // creating express application 
 const app= express();
 
 // MiddleWare JSON  File for Client to request
+app.use(express.json());
 
-
-// Middleware As Application level of Routers 
+// Middleware As Application level of Routers / error handlers
 
 
 
