@@ -1,7 +1,8 @@
 const express = require('express');
 require('../routes/user.routes')
+const userModel = require('../models/user.model')
 
-exports.signup= (req, res) => {
+const signup= async(req, res) => {
 
     //Destruct the data
     const {userName, email, password} = req.body;
@@ -11,6 +12,10 @@ exports.signup= (req, res) => {
         res.status(404)
         throw new Error('all files must be filled')
     }
+    else {
+        const createUser = await userModel.create({userName,email,password});
+    }
 
-    res.status(200).json({message:"You have been successfully signed up"})
+    res.status(200).json("Create User", createUser)
   }
+  module.exports = signup;

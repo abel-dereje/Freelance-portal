@@ -1,22 +1,25 @@
 const express=require('express');
 const { route } = require('./routes/user.routes');
-require('./config/db')
+const db_connect= require('./config/db')
 require('./controllers/user.controller')
+// const dotenv=require("dotenv").config();
 
+db_connect();
 // creating express application 
 const app= express();
-const router= express.Router();
 
-const bodyParser = require('express').json;
-app.use(bodyParser);
+app.use(route);
+
+// const bodyParser = require('express').json;
+// app.use(bodyParser);
 
 // port number 
 const port=4000;
 
 // Route to signup Page
-app.post('api/signup', (req, res) => {
-    res.send('Welcome')
-});
+// app.post('/signup', (req, res) => {
+//     res.send('Welcome')
+// });
 
 // Route to Login Page
 // app.get('/login', (req, res) => {
