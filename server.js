@@ -1,5 +1,4 @@
 const express=require('express');
-
 const router = require('./routes/user.routes');
 const db_connect = require('./config/db')
 
