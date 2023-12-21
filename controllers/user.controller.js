@@ -39,5 +39,13 @@ const login = async (req, res, next) => {
       res.status(400).json({ error: error.message });
     }
   };
+
+  const logout = (req, res) => {
   
-  module.exports = { signup, login };
+    // You can clear the token stored on the client-side upon logout
+    res.clearCookie('authToken'); // Clear the JWT token from cookies
+    
+    res.status(200).json({ message: 'User logged out successfully' });
+  };
+  
+  module.exports = { signup, login,logout };
