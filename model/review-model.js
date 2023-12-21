@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const skillSchema = mongoose.Schema({
+const reviewSchema = mongoose.Schema({
    skillID:{
         type:String,
         required:true,
@@ -28,4 +28,4 @@ const skillSchema = mongoose.Schema({
  
 );
 
-module.exports = mongoose.model("Skill", skillSchema);
+module.exports = mongoose.model("Review", reviewSchema);
