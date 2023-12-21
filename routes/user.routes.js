@@ -4,7 +4,7 @@ const { signup } = require('../controllers/user.controller')
 const route = express.Router()
 
 // Routs for signup
-route.post('/api/signup', signup)
+route.post('/signup', signup);
 
 // Routs for login
 route.post('/login', (req, res) => {
