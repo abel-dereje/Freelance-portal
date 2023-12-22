@@ -1,5 +1,6 @@
 const express=require('express');
 const router = require('./routes/user.routes');
+const routerConversion = require('./routes/conversion.routes');
 const db_connect = require('./config/db')
 
 // Calling database function
@@ -12,6 +13,7 @@ const app = express();
 // Middleware JSON file for client requests
 app.use(express.json());
 app.use(router);
+app.use(routerConversion);
 
 // Error handlers Middleware
 
