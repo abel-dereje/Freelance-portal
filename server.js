@@ -18,7 +18,7 @@ app.use(express.json());
 
 
 // port number 
-const port=4000;
+const port=process.env.PORT_NUMBER || 4001;
 
 // i have created the express application then the express app should be listening on port
 app.listen(port,()=>{
