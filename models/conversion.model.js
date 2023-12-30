@@ -1,38 +1,38 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
 
-const conversionSchema = mongoose.Schema({
+// const conversionSchema = mongoose.Schema({
 
-    id:{
-        type: String,
-        required: true,
-        unique: true
-    },
-    sellerId:{
-        type: String,
-        required: true
-    },
-    buyerId:{
-        type: String,
-        required: true
-    },
-    readBySeller: {
-        type: Boolean,
-        required: true,
-    },
-      readByBuyer: {
-        type: Boolean,
-        required: true,
-    },
-      lastMessage: {
-        type: String,
-        required: false,
-    },
+//     id:{
+//         type: String,
+//         required: true,
+//         unique: true
+//     },
+//     sellerId:{
+//         type: String,
+//         required: true
+//     },
+//     buyerId:{
+//         type: String,
+//         required: true
+//     },
+//     readBySeller: {
+//         type: Boolean,
+//         required: true,
+//     },
+//       readByBuyer: {
+//         type: Boolean,
+//         required: true,
+//     },
+//       lastMessage: {
+//         type: String,
+//         required: false,
+//     },
     
-    },
-    {
-      timestamp:true,
-    }
+//     },
+//     {
+//       timestamp:true,
+//     }
      
-    );
+//     );
     
-    module.exports = mongoose.model("Conversion", conversionSchema);
+//     module.exports = mongoose.model("Conversion", conversionSchema);
