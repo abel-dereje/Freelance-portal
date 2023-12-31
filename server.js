@@ -17,7 +17,7 @@ app.use(userRoutes);
 app.use(userManagementRoutes);
 
 // Error handling middleware
-// app.use(errorHandler);
+app.use(errorHandler);
 
 // Port number
 const port = process.env.PORT || 4000;
