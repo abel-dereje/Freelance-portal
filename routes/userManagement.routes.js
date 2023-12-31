@@ -2,10 +2,9 @@ const express = require('express');
 const routes = express.Router();
 const {
     getUsers,
-    getUser
-    // createUsers,
-    // updateUsers,
-    // deleteUsers
+    getUser,
+     updateUsers,
+    deleteUsers
 } = require('../controllers/userManagement.controller');
 
 // Define middleware
@@ -18,8 +17,8 @@ routes.route("/")
 
 routes.route("/:id")
     .get(getUser)
-    // .put(updateUsers)
-    // .delete(deleteUsers);
+    .put(updateUsers)
+    .delete(deleteUsers);
 
 // Export the routes
 module.exports = routes;
