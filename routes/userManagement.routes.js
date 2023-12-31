@@ -6,9 +6,10 @@ const {
      updateUsers,
     deleteUsers
 } = require('../controllers/userManagement.controller');
+const tokenHandler=require('../middleware/tokenValidateHandler');
 
 // Define middleware
-// routes.use(tokenHandler);
+routes.use(tokenHandler);
 
 // Define routes for managing users
 routes.route("/")
