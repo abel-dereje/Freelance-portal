@@ -1,5 +1,5 @@
 const express = require("express");
-const { signupUsers, loginUsers, logoutUsers } = require("../controllers/user.controller");
+const { signupUsers, loginUsers, userStatus, logoutUsers } = require("../controllers/user.controller");
 
 const router = express.Router();
 
@@ -8,6 +8,9 @@ router.route("/signup").post(signupUsers);
 
 // Routes for login
 router.route("/login").post(loginUsers);
+
+// Routes for status
+router.route("/status").get(userStatus);
 
 // Routes for logout
 router.route("/logout").post(logoutUsers);
