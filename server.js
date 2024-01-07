@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const db_connect = require('./config/db');
 const errorHandler = require('./middleware/errorHandling');
+const tokenHandler = require("./middleware/tokenValidateHandler");
 const userRoutes = require('./routes/user.routes');
 const userManagementRoutes = require('./routes/userManagement.routes');
 
@@ -18,6 +19,7 @@ app.use(userManagementRoutes);
 
 // Error handling middleware
 app.use(errorHandler);
+app.use(tokenHandler);
 
 // Port number
 const port = process.env.PORT || 4000;
