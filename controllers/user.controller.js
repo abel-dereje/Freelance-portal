@@ -63,11 +63,11 @@ const loginUsers = async (req, res) => {
         {
           thisUser: {
             email: thisUser.email,
-            id: thisUser.id,
-            phone: thisUser.phone,
-            address: thisUser.address,
-            location: thisUser.location,
-            bio: thisUser.bio
+            id: thisUser.id
+            // phone: thisUser.phone,
+            // address: thisUser.address,
+            // location: thisUser.location,
+            // bio: thisUser.bio
           },
         },
         process.env.ACCESS_TOKEN_SECRET_KEY,
