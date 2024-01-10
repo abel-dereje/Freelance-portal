@@ -8,6 +8,7 @@ const tokenHandler = require("./middleware/tokenValidateHandler");
 const userRoutes = require('./routes/user.routes');
 const userManagementRoutes = require('./routes/userManagement.routes');
 const skillRoutes = require('./routes/skill.routes');
+const messageRoutes = require('./routes/message.routes');
 
 // Calling database function
 db_connect();
@@ -20,6 +21,7 @@ app.use(express.json());
 app.use(userRoutes);
 app.use(userManagementRoutes);
 app.use(skillRoutes);
+app.use(messageRoutes);
 
 // Error handling middleware (Should come after routes, before tokenHandler)
 app.use(errorHandler);
