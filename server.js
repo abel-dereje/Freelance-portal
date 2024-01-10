@@ -1,10 +1,13 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const db_connect = require('./config/db');
+
 const errorHandler = require('./middleware/errorHandling');
 const tokenHandler = require("./middleware/tokenValidateHandler");
+
 const userRoutes = require('./routes/user.routes');
 const userManagementRoutes = require('./routes/userManagement.routes');
+const skillRoutes = require('./routes/skill.routes');
 
 // Calling database function
 db_connect();
@@ -16,9 +19,12 @@ app.use(express.json());
 // Routes
 app.use(userRoutes);
 app.use(userManagementRoutes);
+app.use(skillRoutes);
 
-// Error handling middleware
+// Error handling middleware (Should come after routes, before tokenHandler)
 app.use(errorHandler);
+
+// Token validation middleware
 app.use(tokenHandler);
 
 // Port number
