@@ -20,4 +20,14 @@ const createMessage = asyncHandler(async (req, res) => {
       console.log("The Created New Message is:", req.body);
   });
 
-  module.exports = { createMessage }
+  const getMessage = asyncHandler(async (req, res) => {
+    // get contact using by id
+    const find_user_by_id = await messages_model.findById(req.params.id);
+    if (!find_user_by_id) {
+      res.status(404);
+      throw new Error("User not found ");
+    }
+    res.status(200).json(find_user_by_id);
+  });
+
+  module.exports = { createMessage, getMessage }
