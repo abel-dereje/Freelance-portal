@@ -1,7 +1,7 @@
 const express = require('express');
 
 const tokenHandler = require('../middleware/tokenValidateHandler');
-const { createMessage, getMessage } = require('../controllers/messages.controller.js');
+const { createMessage, getMessage, updateMessage, deleteMessage } = require('../controllers/messages.controller.js');
 
 const routerMessage = express.Router();
 
@@ -12,6 +12,6 @@ routerMessage.use(tokenHandler);
 // Define routes
 routerMessage.route("/messages").post(createMessage);
 
-routerMessage.route("/messages/:id").get(getMessage);
+routerMessage.route("/messages/:id").get(getMessage).put(updateMessage).delete(deleteMessage);
 
 module.exports = routerMessage;
