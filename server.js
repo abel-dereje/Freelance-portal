@@ -1,42 +1,26 @@
-const express = require('express');
-const dotenv = require('dotenv').config();
-const db_connect = require('./config/db');
+// importing package using require 
+const express=require('express');
+const db_connect = require('./db/db-config');
+require('dotenv').config();
 
-const errorHandler = require('./middleware/errorHandling');
-const tokenHandler = require("./middleware/tokenValidateHandler");
 
-const userRoutes = require('./routes/user.routes');
-const userManagementRoutes = require('./routes/userManagement.routes');
-const skillRoutes = require('./routes/skill.routes');
-const messageRoutes = require('./routes/message.routes');
-const ordersRoutes = require('./routes/order.routes')
-const conversationRoutes = require('./routes/conversation.routes')
-
-// Calling database function
+// apply your Database on the top level methods 
 db_connect();
 
-// Creating express application
-const app = express();
+// creating express application 
+const app= express();
+
+// MiddleWare JSON  File for Client to request
 app.use(express.json());
 
-// Routes
-app.use(userRoutes);
-app.use(userManagementRoutes);
-app.use(skillRoutes);
-app.use(messageRoutes);
-app.use(ordersRoutes);
-app.use(conversationRoutes);
+// Middleware As Application level of Routers / error handlers
 
-// Error handling middleware (Should come after routes, before tokenHandler)
-app.use(errorHandler);
 
-// Token validation middleware
-app.use(tokenHandler);
 
-// Port number
-const port = process.env.PORT || 4000;
+// port number 
+const port=process.env.PORT_NUMBER || 4001;
 
-// Server listening
-app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+// i have created the express application then the express app should be listening on port
+app.listen(port,()=>{
+    console.log(`Server listing or running on port ${port}`);
 });
