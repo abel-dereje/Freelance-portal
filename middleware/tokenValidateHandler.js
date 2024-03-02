@@ -1,34 +1,41 @@
-const jwt = require('jsonwebtoken');
 const asyncHandler = require('express-async-handler');
-const dotenv = require('dotenv');
-
-// Load environment variables from .env file
-dotenv.config();
+const jwt = require('jsonwebtoken');
 
 const tokenHandler = asyncHandler(async (req, res, next) => {
-  try {
+    // Check if the request is for signup route
+    if (req.path === '/signup') {
+        // If it is, simply proceed to the next middleware or route handler
+        return next();
+    }
+    // Check if the request is for login route
+    if (req.path === '/login') {
+        // If it is, simply proceed to the next middleware or route handler
+        return next();
+    }
+
     let token;
-    const authHeader = req.headers.authorization || req.headers.Authorization;
-
-    if (authHeader && authHeader.startsWith('Bearer')) {
-      token = authHeader.split(' ')[1];
+    let authHeader = req.headers.authorization || req.headers.Authorization;
+    
+    if (!authHeader || !authHeader.startsWith('Bearer')) {
+        return res.status(401).send({ error: "Token is required" });
     }
+    
+    token = authHeader.split(" ")[1];
+    
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+        console.log(decoded);
+        req.thisUser = decoded.thisUser;
 
-    if (!token) {
-      return res.status(401).send({ error: 'Token is required' });
+         // Check if user has the required role (e.g., 'admin')
+         if (req.user.role !== 'admin') {
+            return res.status(403).send({ error: "Unauthorized. Insufficient role." });
+        }
+        
+        next();
+    } catch (err) {
+        res.status(401).send({ error: "User not authenticated or token is not valid" });
     }
-
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY, (err, decoded) => {
-      if (err) {
-        return res.status(401).send({ error: 'User not authenticated or token is invalid' });
-      }
-      console.log(decoded);
-      req.thisUser = decoded.thisUser;
-      next();
-    });
-  } catch (error) {
-    next(error);
-  }
 });
 
 module.exports = tokenHandler;
