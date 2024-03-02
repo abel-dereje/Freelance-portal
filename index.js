@@ -1,41 +1,42 @@
-// creating express 
 const express = require('express');
+const dotenv = require('dotenv').config();
+const db_connect = require('./config/db');
 
-// create dotenv config
-const dotenv = require('dotenv').config(); 
+// Middleware
+const errorHandler = require('./middleware/errorHandling');
+const tokenHandler = require("./middleware/tokenValidateHandler");
 
-// loading or require the routes folder 
+// Loading routes
 const skillRoutes = require('./routes/skill.routes');
 const userRoutes = require('./routes/user.routes');
 const orderRoutes = require('./routes/order.routes');
 const messageRoutes = require('./routes/message.routes');
 const conversationRoutes = require('./routes/conversation.routes');
 
-// loading or require the middleware custom 
-const errorHandler = require('./middleware/errorHandling');
-const db_connect = require('./config/db');
-
-// calling the database connection
+// Connect to the database
 db_connect();
 
-// creating the express app
+// Create express application
 const app = express();
-
-// applying a middleware to access the JSON from the client 
 app.use(express.json());
 
-// middleware routes
+// Routes
 app.use(skillRoutes);
 app.use(userRoutes);
 app.use(orderRoutes);
 app.use(conversationRoutes);
 app.use(messageRoutes);
 
-// we have to use the errorHandler 
-//  app.use(errorHandler);
+// Error handling middleware (Should come after routes, before tokenHandler)
+app.use(errorHandler);
 
-// creating the express app with the port number to listen on
+// Token validation middleware
+app.use(tokenHandler);
+
+// Define the port
 const port = process.env.PORT || 4000;
+
+// Start the server
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
