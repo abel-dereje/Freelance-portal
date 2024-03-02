@@ -1,4 +1,4 @@
-const asyncHandler = require("express-async-handler");
+const asyncHandler = require('express-async-handler');
 const skills_model = require('../models/skill.model');
 
 const createSkills = asyncHandler(async (req, res) => {
