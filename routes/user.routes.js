@@ -1,20 +1,19 @@
-const express = require("express");
-const { signupUsers, loginUsers, userStatus, logoutUsers } = require("../controllers/user.controller");
-const tokenHandler = require("../middleware/tokenValidateHandler");
+const express = require('express');
+const { signupUsers, loginUsers, userStatus, logoutUsers } = require('../controllers/user.controller');
+const tokenHandler = require('../middleware/tokenValidateHandler');
 
 const router = express.Router();
 
-// Routes for signup
-router.route("/signup").post(signupUsers);
+// Route for user signup (without token middleware)
+router.post('/signup', signupUsers);
 
-// Routes for login
-router.route("/login").post(loginUsers);
+// Route for user login
+router.post('/login', loginUsers);
 
-// Routes for status
-router.route("/status")
-.get(tokenHandler,userStatus);
+// Route for user status
+router.get('/status', tokenHandler, userStatus);
 
-// Routes for logout
-router.route("/logout").post(logoutUsers);
+// Route for user logout
+router.post('/logout', logoutUsers);
 
 module.exports = router;
