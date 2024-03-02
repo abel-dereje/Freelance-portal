@@ -1,7 +1,5 @@
 // loading mongoose 
 const mongoose = require('mongoose');
-const dotenv=require("dotenv").config();
-
 
 // create a Anonymous Function 
 const db_connect= async ()=>{
