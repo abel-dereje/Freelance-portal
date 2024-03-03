@@ -1,13 +1,17 @@
 const mongoose = require("mongoose");
 
 // Define enum for roles
-const validRoles = ['admin', 'freelancer', 'employee'];
+const validRoles = ['admin', 'freelancer', 'employer'];
 
 const userSchema = mongoose.Schema(
   {
-    fullName: {
+    firstName: {
       type: String,
-      required: [true, "Please enter a full name"],
+      required: [true, "Please enter a first name"],
+    },
+    lastName: {
+      type: String,
+      required: [true, "Please enter a last name"],
     },
     email: {
       type: String,
@@ -17,29 +21,9 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, "Please enter a password"],
     },
-    image: {
+    country: {
       type: String,
-      required: false,
-    },
-    phone: {
-      type: String,
-      required: false,
-    },
-    address: {
-      type: String,
-      required: false,
-    },
-    location: {
-      type: String,
-      required: false,
-    },
-    bio: {
-      type: String,
-      required: false,
-    },
-    isSeller: {
-      type: Boolean,
-      default: false,
+      required: [true, "Please enter a country"],
     },
     role: {
       type: String,
