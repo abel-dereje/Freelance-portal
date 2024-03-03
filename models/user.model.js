@@ -1,22 +1,25 @@
-const { Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
+
+// Define enum for roles
+const validRoles = ['admin', 'freelancer', 'employee'];
 
 const userSchema = mongoose.Schema(
   {
     fullName: {
-      type: "string",
+      type: String,
       required: [true, "Please enter a full name"],
     },
     email: {
-      type: "string",
+      type: String,
       required: [true, "Please enter an email"],
     },
     password: {
-      type: "string",
-      required: [true, "Please enter a phone number"],
+      type: String,
+      required: [true, "Please enter a password"],
     },
     image: {
       type: String,
+      required: false,
     },
     phone: {
       type: String,
@@ -38,9 +41,14 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    role: {
+      type: String,
+      enum: validRoles, // Use enum to restrict values to valid roles
+      default: 'freelancer', // Set a default role (e.g., 'freelancer')
+    },
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 
