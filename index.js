@@ -12,6 +12,7 @@ const userRoutes = require('./routes/user.routes');
 const orderRoutes = require('./routes/order.routes');
 const messageRoutes = require('./routes/message.routes');
 const conversationRoutes = require('./routes/conversation.routes');
+const profileRoutes = require('./routes/profile.routes');
 
 // Connect to the database
 db_connect();
@@ -26,6 +27,7 @@ app.use(userRoutes);
 app.use(orderRoutes);
 app.use(conversationRoutes);
 app.use(messageRoutes);
+app.use(profileRoutes);
 
 // Error handling middleware (Should come after routes, before tokenHandler)
 app.use(errorHandler);
