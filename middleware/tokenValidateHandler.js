@@ -27,11 +27,13 @@ const tokenHandler = asyncHandler(async (req, res, next) => {
         console.log(decoded);
         req.thisUser = decoded.thisUser;
 
-         // Check if user has the required role (e.g., 'admin')
-         if (req.user.role !== 'admin') {
+        // Check if the user has the required role for accessing the route
+        // Assuming each route requires a specific role, modify this logic based on your actual requirements
+        if (req.path === '/login' && !['admin', 'freelancer', 'employer'].includes(req.thisUser.role)) {
             return res.status(403).send({ error: "Unauthorized. Insufficient role." });
         }
-        
+
+        // If the user has the required role, proceed to the next middleware or route handler
         next();
     } catch (err) {
         res.status(401).send({ error: "User not authenticated or token is not valid" });
