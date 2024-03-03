@@ -1,6 +1,6 @@
 const express = require('express');
 const { signupUsers, loginUsers, userStatus, logoutUsers } = require('../controllers/user.controller');
-const tokenHandler = require('../middleware/tokenValidateHandler');
+const tokenHandling = require('../middleware/tokenValidateHandler');
 
 const router = express.Router();
 
@@ -11,9 +11,9 @@ router.post('/signup', signupUsers);
 router.post('/login', loginUsers);
 
 // Route for user status
-router.get('/status', tokenHandler, userStatus);
+router.get('/status', tokenHandling, userStatus);
 
 // Route for user logout
-router.post('/logout', logoutUsers);
+router.post('/logout', tokenHandling, logoutUsers);
 
 module.exports = router;
