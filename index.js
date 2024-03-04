@@ -9,7 +9,7 @@ const tokenHandler = require("./middleware/tokenValidateHandler");
 // Loading routes
 const skillRoutes = require('./routes/skill.routes');
 const userRoutes = require('./routes/user.routes');
-const orderRoutes = require('./routes/order.routes');
+const jobPostRoutes = require('./routes/postJob.routes');
 const messageRoutes = require('./routes/message.routes');
 const conversationRoutes = require('./routes/conversation.routes');
 const profileRoutes = require('./routes/profile.routes');
@@ -24,7 +24,7 @@ app.use(express.json());
 // Routes
 app.use(skillRoutes);
 app.use(userRoutes);
-app.use(orderRoutes);
+app.use(jobPostRoutes);
 app.use(conversationRoutes);
 app.use(messageRoutes);
 app.use(profileRoutes);
