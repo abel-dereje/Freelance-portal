@@ -12,6 +12,11 @@ const tokenHandler = asyncHandler(async (req, res, next) => {
         // If it is, simply proceed to the next middleware or route handler
         return next();
     }
+    // Check if the request is for createProfile route
+    if (req.path === '/createProfile') {
+        // If it is, simply proceed to the next middleware or route handler
+        return next();
+    }
 
     let token;
     let authHeader = req.headers.authorization || req.headers.Authorization;

@@ -13,7 +13,7 @@ const getProfiles = asyncHandler(async (req, res) => {
 
 const createProfile = asyncHandler(async (req, res) => {
   //deconstruct the data from the request
-  const { title, hourlyRate, workHistory, portfolio, skill, testimonial, certification, employmentHistory, otherExperience } =
+  const {user_id, title, hourlyRate, workHistory, portfolio, skill, testimonial, certification, employmentHistory, otherExperience } =
     req.body;
   // validation check
   if (!title || !hourlyRate ) {
@@ -28,6 +28,7 @@ const createProfile = asyncHandler(async (req, res) => {
   // }
   // if the all fields are required then we need to create a const that access the model of  the database
   const create_profile = await userProfile.create({
+    user_id,
     title,
     hourlyRate,
     workHistory,

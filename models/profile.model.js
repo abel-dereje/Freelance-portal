@@ -5,8 +5,8 @@ const userSchema = mongoose.Schema(
   {
     user_id:{
       type: mongoose.Schema.Types.ObjectId,
-       required: false,
        ref:"User",
+       required: true
   },
     title: {
       type: String,
