@@ -1,47 +1,52 @@
-// Importing the error handler module
 const asyncHandler = require("express-async-handler");
-// Importing the model module
 const userProfile = require("../models/profile.model");
+const tokenHandler = require("../middleware/tokenValidateHandler");
+const express = require("express");
+const router = express.Router();
+
+router.use(tokenHandler); // Use the token handler middleware for all profile routes
+
 
 // Define the getUsers function using asyncHandler to handle async operations
 const getProfiles = asyncHandler(async (req, res) => {
   // Retrieve all users from the database
-  const users = await userProfile.find({ user_id: req.find_user_by_id });
+  const users = await userProfile.find({ user_id: req.thisUser._id });
   // Send a successful response with the retrieved users
   res.status(200).json(users);
 });
 
+// Route handler to create a profile
 const createProfile = asyncHandler(async (req, res) => {
-  //deconstruct the data from the request
-  const {user_id, title, hourlyRate, workHistory, portfolio, skill, testimonial, certification, employmentHistory, otherExperience } =
-    req.body;
-  // validation check
-  if (!title || !hourlyRate ) {
-    res.status(400);
-    throw new Error(" title and hourly rate fields are required or Mandatory");
-  }
-  // // if email  is Exist 
-  // const user_email= await userManagement.findOne({email});
-  // if(user_email){
-  //     res.status(400);
-  //     throw new Error("User Email is Exist in the database");
-  // }
-  // if the all fields are required then we need to create a const that access the model of  the database
-  const create_profile = await userProfile.create({
-    user_id,
-    title,
-    hourlyRate,
-    workHistory,
-    portfolio,
-    skill,
-    testimonial,
-    certification,
-    employmentHistory,
-    otherExperience,
-  });
-  res.status(201).json(create_profile);
-  console.log("The created new profile is:", req.body);
+    try {
+        const { title, hourlyRate, workHistory, portfolio, skill, testimonial, certification, employmentHistory, otherExperience } = req.body;
+
+        // Validation check
+        if (!title || !hourlyRate) {
+            return res.status(400).json({ error: "Title and hourly rate fields are required" });
+        }
+
+        // Create profile using user_id attached to request object
+        const create_profile = await userProfile.create({
+            user_id: req.user_id, // Using user_id attached to the request object
+            title,
+            hourlyRate,
+            workHistory,
+            portfolio,
+            skill,
+            testimonial,
+            certification,
+            employmentHistory,
+            otherExperience,
+        });
+
+        res.status(201).json(create_profile);
+        console.log("The created new profile is:", create_profile);
+    } catch (error) {
+        console.error("Error creating profile:", error);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
 });
+
 
 const getProfile = asyncHandler(async (req, res) => {
   // get contact using by id
@@ -55,15 +60,13 @@ const getProfile = asyncHandler(async (req, res) => {
 
 const updateProfile = asyncHandler(async (req, res) => {
   // first get the contact by its id
-  const find_profile_by_id = await userProfile.findById(req.params.id);
+  const find_profile_by_id  = await userProfile.findById( req.params.id );
   if (!find_profile_by_id) {
     res.status(404);
     throw new Error("Contact not found");
   }
-  // then update the contact
-  const update_profile = await userProfile.findByIdAndUpdate(
-    req.params.id,
-    req.body,
+  // then update the profile
+  const update_profile = await userProfile.findByIdAndUpdate(req.params.id, req.body,
     { new: true }
   );
   res.status(200).json(update_profile);
