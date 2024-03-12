@@ -1,6 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv').config();
 const db_connect = require('./config/db');
+const cookieParser = require('cookie-parser');
 
 // Middleware
 const errorHandler = require('./middleware/errorHandling');
@@ -20,6 +21,7 @@ db_connect();
 // Create express application
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // Routes
 app.use(skillRoutes);
