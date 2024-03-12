@@ -9,10 +9,16 @@ router.use(tokenHandler); // Use the token handler middleware for all profile ro
 
 // Define the getUsers function using asyncHandler to handle async operations
 const getProfiles = asyncHandler(async (req, res) => {
-  // Retrieve all users from the database
-  const users = await userProfile.find({ user_id: req.thisUser._id });
-  // Send a successful response with the retrieved users
-  res.status(200).json(users);
+  try {
+    // Retrieve profiles for the user identified by user_id
+    const profiles = await userProfile.find({ user_id: req.user_id });
+
+    // Send a successful response with the retrieved profiles
+    res.status(200).json(profiles);
+  } catch (error) {
+    console.error("Error retrieving profiles:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 });
 
 // Route handler to create a profile
