@@ -1,9 +1,30 @@
 const asyncHandler = require("express-async-handler");
 const jobPost_model  = require('../models/postJob.model');
+const tokenHandler = require("../middleware/tokenValidateHandler");
+const express = require("express");
+const router = express.Router();
+
+router.use(tokenHandler); // Use the token handler middleware for all profile routes
+
+
+// Define the get Job Posts function using asyncHandler to handle async operations
+const getJobPosts = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve All JOb Posts for the user identified by user_id
+    const postJOb = await jobPost_model.find({ user_id: req.user_id });
+
+    // Send a successful response with the retrieved profiles
+    res.status(200).json(postJOb);
+  } catch (error) {
+    console.error("Error retrieving profiles:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 const createJobPost = asyncHandler(async (req, res) => {
+  try {
     //deconstruct the data from the request
-    const {user_id, jobTitle, projectSkill, projectScope, projectBudget, postReview } = req.body;
+    const { jobTitle, projectSkill, projectScope, projectBudget, postReview } = req.body;
 
     // Validation check 
     if (!jobTitle || !projectSkill || !projectScope || !projectBudget || !postReview) {
@@ -11,16 +32,20 @@ const createJobPost = asyncHandler(async (req, res) => {
        throw new Error(" all fields are required");
     }
     const create_postJob = await jobPost_model.create({
-        user_id,
+        user_id: req.user_id,
         jobTitle,
         projectSkill,
         projectScope,
         projectBudget,
         postReview        
       });
-  
+      
       res.status(201).json(create_postJob);
-      console.log("The created new job is:", req.body);
+      console.log("The created new post is:", create_postJob);
+  } catch (error) {
+      console.error("Error creating post:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+  }
   });
 
   //Get single order routes by ID
@@ -57,4 +82,4 @@ const deleteJobPost = asyncHandler(async (req, res) => {
     res.status(200).json(delete_jobPost);
   });
 
-  module.exports = { createJobPost, getJobPost, updateJobPost, deleteJobPost }
+  module.exports = { getJobPosts, createJobPost, getJobPost, updateJobPost, deleteJobPost }
