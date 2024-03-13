@@ -69,7 +69,7 @@ const updateProfile = asyncHandler(async (req, res) => {
   const find_profile_by_id  = await userProfile.findById( req.params.id );
   if (!find_profile_by_id) {
     res.status(404);
-    throw new Error("Contact not found");
+    throw new Error("Profile not found");
   }
   // then update the profile
   const update_profile = await userProfile.findByIdAndUpdate(req.params.id, req.body,
