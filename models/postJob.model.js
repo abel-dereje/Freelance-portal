@@ -20,7 +20,7 @@ const orderSchema = mongoose.Schema(
       required: true,
     },
     projectBudget: {
-      type: Number,
+      type: String,
       required: true,
     },
     postReview: {
