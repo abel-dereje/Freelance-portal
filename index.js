@@ -38,7 +38,7 @@ app.use(errorHandler);
 app.use(tokenHandler);
 
 // Define the port
-const port = process.env.PORT || 4000;
+const port = process.env.PORT_NUMBER;
 
 // Start the server
 app.listen(port, () => {
