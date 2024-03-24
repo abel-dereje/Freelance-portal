@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const dotenv = require('dotenv').config();
 const db_connect = require('./config/db');
 const cookieParser = require('cookie-parser');
@@ -21,6 +22,7 @@ db_connect();
 // Create express application
 const app = express();
 app.use(express.json());
+app.use(cors()); 
 app.use(cookieParser());
 
 // Routes
@@ -36,6 +38,8 @@ app.use(errorHandler);
 
 // Token validation middleware
 app.use(tokenHandler);
+
+
 
 // Define the port
 const port = process.env.PORT_NUMBER;
