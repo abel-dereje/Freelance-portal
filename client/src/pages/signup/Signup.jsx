@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './signup.scss';
 
@@ -9,6 +9,21 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [country, setCountry] = useState('');
+  const [countries, setCountries] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from the country API
+    fetch('https://restcountries.com/v3.1/all')
+      .then(response => response.json())
+      .then(data => {
+        // Extract country names from the data
+        const countryNames = data.map(country => country.name.common);
+        // Set the list of countries
+        setCountries(countryNames);
+      })
+      .catch(error => console.error('Error fetching countries:', error));
+  }, []);
+
 
   // Function to handle form submission
   const handleSubmit = (event) => {
@@ -67,13 +82,17 @@ const Signup = () => {
         </div>
         <div className='form-group'>
           <label htmlFor='country'>Country</label>
-          <input
-            type='country'
+          <select
             id='country'
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             required
-          />
+          >
+            <option value='' disabled>Select your country</option>
+            {countries.map((countryName, index) => (
+              <option key={index} value={countryName}>{countryName}</option>
+            ))}
+          </select>
         </div>
         <button type='submit'>Register</button>
       </form>
