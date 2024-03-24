@@ -1,18 +1,27 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import './login.scss'; // Import the common SCSS file for styling
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import './login.scss';
 
 const Login = () => {
-  // State variables to store username and password
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  // Function to handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    // Here you can add your login logic
-    console.log('Username:', username);
-    console.log('Password:', password);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    try {
+      const response = await axios.post('http://localhost:4000/login', { 
+        password
+      });
+
+      console.log('Login successful:', response.data);
+      navigate('/users');
+    } catch (error) {
+      console.error('Login failed:', error);
+      // Handle login failure
+    }
   };
 
   return (
@@ -20,12 +29,12 @@ const Login = () => {
       <form onSubmit={handleSubmit}>
         <h2>Login</h2>
         <div className='form-group'>
-          <label htmlFor='username'>Username</label>
+          <label htmlFor='email'>Email</label>
           <input
             type='text'
-            id='username'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            id='email'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
@@ -42,8 +51,8 @@ const Login = () => {
         <button type='submit'>Login</button>
       </form>
       <div className='additional-links'>
-        <Link to="../signup" className='signup-button'>Signup</Link>
-        <Link to="../forgotPassword" className='forgot-password-button'>Forgot Password</Link>
+        <Link to="/signup" className='signup-button'>Signup</Link>
+        <Link to="/forgotPassword" className='forgot-password-button'>Forgot Password</Link>
       </div>
     </div>
   );
