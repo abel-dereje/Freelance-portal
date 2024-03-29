@@ -1,15 +1,16 @@
 import React, { useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import './signup.scss';
 
 const Signup = () => {
-  // State variables to store username and password
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [country, setCountry] = useState('');
   const [countries, setCountries] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch data from the country API
@@ -24,16 +25,24 @@ const Signup = () => {
       .catch(error => console.error('Error fetching countries:', error));
   }, []);
 
+  const handleSubmit = async (event) => {
+    event.preventDefault(); 
 
-  // Function to handle form submission
-  const handleSubmit = (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
-    // Here you can add your login logic
-    console.log('firstName', firstName);
-    console.log('lastName', lastName);
-    console.log('Email:', email);
-    console.log('Password:', password);
-    console.log('Country:', country);
+    try {
+      const response = await axios.post('http://localhost:4000/signup', {
+        firstName,
+        lastName,
+        email,
+        password,
+        country
+      });
+
+      console.log('Successfully registered:', response.data);
+      navigate('/users');
+    } catch (error) {
+      console.error('Registration failed:', error);
+      // Handle registration failure
+    }
   };
 
   return (
@@ -43,7 +52,7 @@ const Signup = () => {
         <div className='form-group'>
           <label htmlFor='firstName'>First name</label>
           <input
-            type='firstName'
+            type='text'
             id='firstName'
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
@@ -51,9 +60,9 @@ const Signup = () => {
           />
         </div>
         <div className='form-group'>
-          <label htmlFor='lastfirstName'>Last name</label>
+          <label htmlFor='lastName'>Last name</label>
           <input
-            type='lastName'
+            type='text'
             id='lastName'
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
@@ -103,6 +112,5 @@ const Signup = () => {
     </div>
   );
 };
-
 
 export default Signup;
