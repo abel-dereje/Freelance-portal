@@ -13,6 +13,7 @@ const Login = () => {
 
     try {
       const response = await axios.post('http://localhost:4000/login', { 
+        email,
         password
       });
 
