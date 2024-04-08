@@ -22,8 +22,14 @@ db_connect();
 // Create express application
 const app = express();
 app.use(express.json());
-app.use(cors()); 
+// app.use(cors()); 
 app.use(cookieParser());
+
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+// };
+app.use(cors());
 
 // Routes
 app.use(skillRoutes);
