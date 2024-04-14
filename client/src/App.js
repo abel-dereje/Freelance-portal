@@ -7,6 +7,7 @@ import Profile from "./pages/list/profile/Profile";
 import Conversation from "./pages/list/conversation/Conversation";	
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
+// import Dashboard from "./pages/list/dashboard/Dashboard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
@@ -24,7 +25,7 @@ function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/">
             <Route index element={<Login />} />
-            <Route path="home" element={<Home />} />
+            {/* <Route path="home" element={<Home />} /> */}
             <Route path="users">
               <Route index element={<List />} />
               <Route
@@ -39,6 +40,9 @@ function App() {
                 path="new"
                 element={<New inputs={userInputs} title="Add New User" />}
               />
+            </Route>
+            <Route path="dashboard">
+              <Route index element={<Home />} />
             </Route>
             <Route path="skills">
               <Route index element={<Skill />} />
