@@ -24,6 +24,20 @@ const createConversation = asyncHandler(async (req, res) => {
       console.log("The Created New Conversation is:", req.body);
   });
 
+  // Get all skills routes
+const getConversations = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve all skills from the database
+    const Conversations = await conversations_model.find();
+
+    // Send a successful response with the retrieved users
+    res.status(200).json(Conversations);
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
   //Get single conversation routes by ID
   const getConversation = asyncHandler(async (req, res) => {
     // get contact using by id
@@ -58,4 +72,4 @@ const deleteConversation = asyncHandler(async (req, res) => {
     res.status(200).json(delete_conversation);
   });
 
-  module.exports = { createConversation, getConversation, updateConversation, deleteConversation }
+  module.exports = { createConversation, getConversations, getConversation, updateConversation, deleteConversation }
