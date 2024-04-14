@@ -20,13 +20,13 @@ function App() {
     <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/">
-            <Route index element={<Home />} />
-            <Route path="login" element={<Login />} />           
-            <Route path="signup" element={<Signup />} />
+            <Route index element={<Login />} />
+            <Route path="home" element={<Home />} />
             <Route path="users">
               <Route index element={<List />} />
-              {/* <Route path=":userId" element={<Single />} /> */}
               <Route
                 path="new"
                 element={<New inputs={userInputs} title="Add New User" />}
