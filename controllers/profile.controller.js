@@ -1,20 +1,15 @@
 const asyncHandler = require("express-async-handler");
 const userProfile = require("../models/profile.model");
-const tokenHandler = require("../middleware/tokenValidateHandler");
-const express = require("express");
-const router = express.Router();
-
-router.use(tokenHandler); // Use the token handler middleware for all profile routes
 
 
 // Define the getUsers function using asyncHandler to handle async operations
 const getProfiles = asyncHandler(async (req, res) => {
   try {
     // Retrieve profiles for the user identified by user_id
-    const profiles = await userProfile.find({ user_id: req.user_id });
+    const getprofiles = await userProfile.find();
 
     // Send a successful response with the retrieved profiles
-    res.status(200).json(profiles);
+    res.status(200).json(getprofiles);
   } catch (error) {
     console.error("Error retrieving profiles:", error);
     res.status(500).json({ error: "Internal Server Error" });
