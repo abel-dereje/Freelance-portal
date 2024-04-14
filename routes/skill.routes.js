@@ -1,15 +1,16 @@
 const express = require('express');
-const { createSkills, getSkill, updateSkill, deleteSkill } = require('../controllers/skills.controller');
-const tokenHandler = require('../middleware/tokenValidateHandler');
+const cors = require('cors');
+
+const { createSkills, getSkill, getSkills, updateSkill, deleteSkill } = require('../controllers/skills.controller');
 
 const routerSkill = express.Router();
 
 // Use middleware for all routes on this router
-routerSkill.use(tokenHandler);
+routerSkill.use(cors());
 
 // Define routes
 routerSkill.route("/skills").post(createSkills);
-// .get(getSkills)
 routerSkill.route("/skill/:id").get(getSkill).put(updateSkill).delete(deleteSkill);
+routerSkill.route("/getSkills").get(getSkills);
 
 module.exports = routerSkill;
