@@ -44,6 +44,20 @@ const signupUsers = asyncHandler(async (req, res) => {
     }
 });
 
+const getUsers = asyncHandler(async (req, res) => {
+    try {
+      // Retrieve all users from the database
+      const users = await userModel.find();
+  
+      // Send a successful response with the retrieved users
+      res.status(200).json(users);
+    } catch (error) {
+      console.error("Error retrieving users:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+
 const loginUsers = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -76,7 +90,7 @@ const loginUsers = asyncHandler(async (req, res) => {
             },
         },
         process.env.ACCESS_TOKEN_SECRET_KEY,
-        { expiresIn: "10m" }
+        { expiresIn: "30m" }
         );
 
         return res.status(200).send(accessToken);
@@ -94,4 +108,4 @@ const logoutUsers = (req, res) => {
     res.status(200).json({ message: "User logged out successfully" });
 };
 
-module.exports = { signupUsers, loginUsers, userStatus, logoutUsers };
+module.exports = { signupUsers, getUsers, loginUsers, userStatus, logoutUsers };
