@@ -35,16 +35,18 @@ const createSkills = asyncHandler(async (req, res) => {
 });
 
 // Get all skills routes
-// const getSkills = asyncHandler(async (req, res) => {
-//   // Assuming req.find_user_by_id retrieves the user ID
-//   const userId = req.find_user_by_id; // Assuming this retrieves the user ID properly
+const getSkills = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve all skills from the database
+    const Skills = await skills_model.find();
 
-//   // Retrieve all skills associated with the user ID from the database
-//   const skills = await skills_model.find({ user_id: userId }); // Use userId in the query
-
-//   // Send a successful response with the retrieved skills
-//   res.status(200).json(skills);
-// });
+    // Send a successful response with the retrieved users
+    res.status(200).json(Skills);
+  } catch (error) {
+    console.error("Error retrieving users:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 
 //Get single skill routes by ID
@@ -83,4 +85,4 @@ const deleteSkill = asyncHandler(async (req, res) => {
   res.status(200).json(delete_skill);
 });
 
-module.exports = { createSkills, getSkill, updateSkill, deleteSkill };
+module.exports = { createSkills, getSkill, getSkills, updateSkill, deleteSkill };
