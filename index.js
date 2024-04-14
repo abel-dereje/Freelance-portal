@@ -22,14 +22,14 @@ db_connect();
 // Create express application
 const app = express();
 app.use(express.json());
-// app.use(cors()); 
 app.use(cookieParser());
 
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-// };
-app.use(cors());
+// Configure CORS
+const corsOptions = {
+  origin: 'http://localhost:3000', // Change this to the actual origin of your frontend application
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
+app.use(cors(corsOptions));
 
 // Routes
 app.use(skillRoutes);
@@ -44,8 +44,6 @@ app.use(errorHandler);
 
 // Token validation middleware
 app.use(tokenHandler);
-
-
 
 // Define the port
 const port = process.env.PORT_NUMBER;
