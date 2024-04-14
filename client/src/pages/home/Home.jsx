@@ -2,7 +2,7 @@ import React from 'react';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Navbar from '../../components/navbar/Navbar';
 import Widget from '../../components/widget/Widget';
-import Featured from '../../components/featured/Featured';
+import Dashboard from '../../components/datatable/dashboardData/Dashboard';
 import Chart from '../../components/chart/Chart';
 import Table from '../../components/table/Table';
 import "./home.scss";
@@ -20,7 +20,7 @@ const Home = () => {
           <Widget type="balance" />
         </div>
         <div className="charts">
-          <Featured />
+          <Dashboard />
           <Chart title="Last 6 Months (Revenue)" aspect={2 / 1} />
         </div>
         <div className="listContainer">
