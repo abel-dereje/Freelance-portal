@@ -31,6 +31,7 @@ import EditProfile from "./components/datatable/profiles/editProfile/EditProfile
 //import FindJob from "./components/datatable/jobs/findJob/FindJob";
 import FindJobs from "./components/datatable/jobs/findJob/findJobWidget/FindJobs";
 import ViewJob2 from "./components/datatable/jobs/findJob/viewJobDetail/ViewJob";
+import ApplyJob from "./components/datatable/jobs/findJob/applyJob/ApplyJob";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -115,10 +116,10 @@ function App() {
                 path="viewJobById/:id"
                 element={<ViewJob2  />}
               />
-              {/*  <Route
-                path="postJob"
-                element={<PostJob inputs={postJobInputs} title1="Add New Job" />}
-              /> */}
+               <Route
+                path="ApplyJob/:id"
+                element={<ApplyJob  title="Apply Job" />}
+              />
               
             </Route>
             <Route path="your-network">

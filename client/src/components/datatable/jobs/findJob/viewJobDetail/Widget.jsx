@@ -34,7 +34,7 @@ const Widget = () => {
   if (jobData) {
     const job = jobData; // jobData is an object, not an array
     widgetContent = (
-      <Grid>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <Card>
             <CardContent>
@@ -56,7 +56,7 @@ const Widget = () => {
                   <StarIcon sx={{ fontSize: 15, color: "goldenrod" }} />
                 </i>&nbsp;&nbsp;&nbsp;<i>Ethiopia</i>
               </Typography><br/>
-              <Link to={`/apply/${id}`} > {/* Add Link with route */}
+              <Link to={`/findJobs/ApplyJob/${id}`} > {/* Add Link with route */}
                 <Button variant="contained" color="success">Apply Now</Button>
               </Link>
             </CardContent>

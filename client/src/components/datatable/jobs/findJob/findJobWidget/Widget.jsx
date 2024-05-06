@@ -28,10 +28,10 @@ const Widget = ({ type }) => {
         const modifiedData = response.data.map(job => ({
           ...job,
           id: job._id,
-          // Truncate projectScope to 30 words
-          projectScope: truncateText(job.projectScope, job.id), // Pass job.id to truncateText function
+          // Truncate projectScope to 8 words
+          projectScope: truncateText(job.projectScope, job._id), 
         }));
-        setData(modifiedData); // Add 'id' property and truncated 'projectScope' to each job object
+        setData(modifiedData);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Error fetching data. Please try again later.");
@@ -44,16 +44,15 @@ const Widget = ({ type }) => {
   }, []);
 
   // Function to truncate the text to 30 words
-    const truncateText = (text, jobId) => {
-      const words = text.split(' ');
-      if (words.length > 8) {
-        const truncated = words.slice(0, 8).join(' ');
-        const readMore = <Link to={`viewJobById/${jobId}`} style={{fontStyle: 'italic', color: 'green'}}>Read more</Link>;
-        return <>{truncated} {readMore}</>;
-      } else {
-        return text;
-      }
-    };
+  const truncateText = (text, jobId) => {
+    const words = text.split(' ');
+    if (words.length > 8) {
+      const truncated = words.slice(0, 8).join(' ');
+      return <>{truncated} <Link to={`viewJobById/${jobId}`} style={{fontSize: 'medium', fontStyle: 'italic', color: 'green'}}>Read more</Link></>;
+    } else {
+      return text;
+    }
+  };
 
   let paginatedData = data.slice((page - 1) * itemsPerPage, page * itemsPerPage);
 
@@ -67,11 +66,11 @@ const Widget = ({ type }) => {
             <Grid item xs={12} sm={6} md={4} key={job.id}>
               <Card className='card-content'>
                 <CardContent>
-                  <Link to={`viewJobById/${job.id}`} className="card-link" style={{ fontStyle: 'italic', fontSize: 'small', color: 'green' }}>
-                    <Typography variant="h6" className="job-title">
+                  <Typography variant="h6" className="job-title">
+                    <Link to={`viewJobById/${job.id}`} className="card-link" style={{ fontStyle: 'italic', fontSize: 'large', color: 'green' }}>
                       Job Title: {job.jobTitle}
-                    </Typography>
-                  </Link>
+                    </Link>
+                  </Typography>
                   <Typography variant="body1">Skill: {job.projectSkill}</Typography>
                   <Typography variant="body1">Scope: {job.projectScope}</Typography>
                   <Typography variant="body1">Budget: {job.projectBudget}</Typography>

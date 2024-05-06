@@ -27,6 +27,11 @@ const orderSchema = mongoose.Schema(
       type: [String], // Change type to an array of strings
       required: true,
     },
+
+    applyJob: {
+      type:String,
+      required: true,
+    },
   },
   {
     timestamps: true,
