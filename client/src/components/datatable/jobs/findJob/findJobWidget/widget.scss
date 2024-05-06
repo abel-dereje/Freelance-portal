@@ -1,0 +1,33 @@
+.job-title {
+  text-decoration: none;
+  cursor: pointer;
+  color: green;
+}
+
+.job-title:hover {
+  text-decoration: underline;
+  color: green;
+}
+
+.card-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.card-link:hover {
+  text-decoration: none;
+}
+
+.truncated-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}

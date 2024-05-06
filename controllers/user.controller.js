@@ -11,8 +11,8 @@ const signupUsers = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password, country, role } = req.body;
 
     // validation checking whether the user fills all the data fields
-    if (!email || !password || !firstName || !lastName || !country) {
-        return res.status(400).json({ error: "Full Name, Email, Password, and Country must be filled" });
+    if (!email || !password || !firstName || !lastName || !country || !role) {
+        return res.status(400).json({ error: "All fields must be filled" });
     }
 
     const userByEmail = await userModel.findOne({ email });
@@ -32,7 +32,7 @@ const signupUsers = asyncHandler(async (req, res) => {
             email,
             password: passwordHash,
             country,
-            role, // Including role here for database insertion
+            role,
         });
 
         // Exclude the "role" field from the response
@@ -55,6 +55,40 @@ const getUsers = asyncHandler(async (req, res) => {
       console.error("Error retrieving users:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
+  });
+
+  const getUser = asyncHandler(async (req, res) => {
+    try {
+      // Retrieve all users from the database
+      const user = await userModel.findById(req.params.id);
+      if (!user) {
+        res.status(404);
+        throw new Error("User not found ");
+      }
+  
+      // Send a successful response with the retrieved users
+      res.status(200).json(user);
+    } catch (error) {
+      console.error("Error retrieving users:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  });
+
+  //Get update message routes by ID
+const updateUser = asyncHandler(async (req, res) => {
+    // first get the contact by its id
+    const find_user_by_id = await userModel.findById(req.params.id);
+    if (!find_user_by_id) {
+      res.status(404);
+      throw new Error("Job not found");
+    }
+    // then update the skill
+    const update_user = await userModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(update_user);
   });
 
 
@@ -101,11 +135,46 @@ const loginUsers = asyncHandler(async (req, res) => {
 });
 
 const userStatus = asyncHandler(async (req, res) => {
-    res.status(200).json(req.thisUser);
-});
+    // res.status(200).json(req.thisUser);
+        const { id } = req.params;
+        const { status } = req.body;
+    
+        if (!id || !status) {
+            return res.status(400).json({ error: "Both user ID and status are required" });
+        }
+    
+        // Validate if the provided status is valid
+        if (!["active", "inactive"].includes(status)) {
+            return res.status(400).json({ error: "Invalid status provided" });
+        }
+    
+        try {
+            // Find the user by ID
+            const user = await userModel.findById(id);
+            if (!user) {
+                return res.status(404).json({ error: "User not found" });
+            }
+    
+            // Update the user's status
+            user.status = status;
+            await user.save();
+    
+            res.status(200).json({ message: "User status updated successfully", user });
+        } catch (error) {
+            console.error("Error updating user status:", error);
+            res.status(500).json({ error: "Internal Server Error" });
+        }
+    });
 
 const logoutUsers = (req, res) => {
     res.status(200).json({ message: "User logged out successfully" });
 };
 
-module.exports = { signupUsers, getUsers, loginUsers, userStatus, logoutUsers };
+//Get delete user routes by ID
+const deleteUser = asyncHandler(async (req, res) => {
+    const delete_user = await userModel.findByIdAndDelete(req.params.id);
+    res.status(200).json(delete_user);
+  });
+  
+
+module.exports = { signupUsers, getUsers, getUser, updateUser, loginUsers, userStatus, logoutUsers, deleteUser };

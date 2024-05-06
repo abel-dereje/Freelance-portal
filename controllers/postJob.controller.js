@@ -1,17 +1,11 @@
 const asyncHandler = require("express-async-handler");
-const jobPost_model  = require('../models/postJob.model');
-const tokenHandler = require("../middleware/tokenValidateHandler");
-const express = require("express");
-const router = express.Router();
-
-router.use(tokenHandler); // Use the token handler middleware for all profile routes
-
+const Order  = require('../models/postJob.model');
 
 // Define the get Job Posts function using asyncHandler to handle async operations
 const getJobPosts = asyncHandler(async (req, res) => {
   try {
     // Retrieve All JOb Posts for the user identified by user_id
-    const postJOb = await jobPost_model.find({ user_id: req.user_id });
+    const postJOb = await Order.find();
 
     // Send a successful response with the retrieved profiles
     res.status(200).json(postJOb);
@@ -21,37 +15,50 @@ const getJobPosts = asyncHandler(async (req, res) => {
   }
 });
 
+// Assuming this is a route handler function
 const createJobPost = asyncHandler(async (req, res) => {
   try {
-    //deconstruct the data from the request
-    const { jobTitle, projectSkill, projectScope, projectBudget, postReview } = req.body;
+    // Check if user is authenticated
+    // if (!req.user) {
+    //   return res.status(401).json({ error: "Unauthorized access. Please log in." });
+    // }
 
-    // Validation check 
-    if (!jobTitle || !projectSkill || !projectScope || !projectBudget || !postReview) {
-        res.status(400);
-       throw new Error(" all fields are required");
+    const { jobTitle, projectSkill, projectScope, projectBudget, projectCategory } = req.body;
+
+    // Validate if required fields are provided
+    if (!jobTitle || !projectScope || !projectBudget) {
+      return res.status(400).json({ error: "All fields are required" });
     }
-    const create_postJob = await jobPost_model.create({
-        user_id: req.user_id,
-        jobTitle,
-        projectSkill,
-        projectScope,
-        projectBudget,
-        postReview        
-      });
-      
-      res.status(201).json(create_postJob);
-      console.log("The created new post is:", create_postJob);
+
+    // Create new job post
+    const create_postJob = await Order.create({
+      user_id: req.user_id, // Use req.user._id as the user ID
+      jobTitle,
+      projectSkill,
+      projectScope,
+      projectBudget,
+      projectCategory
+    });
+
+    // Respond with created job post
+    res.status(201).json(create_postJob);
+    console.log("The created new post is:", create_postJob);
   } catch (error) {
-      console.error("Error creating post:", error);
+    console.error("Error creating post:", error);
+    // Handle validation errors
+    if (error.name === "ValidationError") {
+      res.status(400).json({ error: error.message });
+    } else {
+      // Handle other errors
       res.status(500).json({ error: "Internal Server Error" });
+    }
   }
-  });
+});
 
   //Get single order routes by ID
   const getJobPost = asyncHandler(async (req, res) => {
     // get contact using by id
-    const find_user_by_id = await jobPost_model.findById(req.params.id);
+    const find_user_by_id = await Order.findById(req.params.id);
     if (!find_user_by_id) {
       res.status(404);
       throw new Error("Job not found ");
@@ -62,13 +69,13 @@ const createJobPost = asyncHandler(async (req, res) => {
  //Get update message routes by ID
 const updateJobPost = asyncHandler(async (req, res) => {
     // first get the contact by its id
-    const find_user_by_id = await jobPost_model.findById(req.params.id);
+    const find_user_by_id = await Order.findById(req.params.id);
     if (!find_user_by_id) {
       res.status(404);
       throw new Error("Job not found");
     }
     // then update the skill
-    const update_jobPost = await jobPost_model.findByIdAndUpdate(
+    const update_jobPost = await Order.findByIdAndUpdate(
       req.params.id,
       req.body,
       { new: true }
@@ -78,7 +85,7 @@ const updateJobPost = asyncHandler(async (req, res) => {
 
   //Get delete skill routes by ID
 const deleteJobPost = asyncHandler(async (req, res) => {
-    const delete_jobPost = await jobPost_model.findByIdAndDelete(req.params.id);
+    const delete_jobPost = await Order.findByIdAndDelete(req.params.id);
     res.status(200).json(delete_jobPost);
   });
 

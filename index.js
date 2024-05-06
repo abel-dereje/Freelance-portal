@@ -5,16 +5,7 @@ const db_connect = require('./config/db');
 const cookieParser = require('cookie-parser');
 
 // Middleware
-const errorHandler = require('./middleware/errorHandling');
-const tokenHandler = require("./middleware/tokenValidateHandler");
-
-// Loading routes
-const skillRoutes = require('./routes/skill.routes');
-const userRoutes = require('./routes/user.routes');
-const jobPostRoutes = require('./routes/postJob.routes');
-const messageRoutes = require('./routes/message.routes');
-const conversationRoutes = require('./routes/conversation.routes');
-const profileRoutes = require('./routes/profile.routes');
+//const { errorHandler, tokenHandler } = require("./middleware/tokenValidateHandler");
 
 // Connect to the database
 db_connect();
@@ -31,6 +22,17 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 
+// Token validation middleware
+//app.use(tokenHandler);
+
+// Loading routes
+const skillRoutes = require('./routes/skill.routes');
+const userRoutes = require('./routes/user.routes');
+const jobPostRoutes = require('./routes/postJob.routes');
+const messageRoutes = require('./routes/message.routes');
+const conversationRoutes = require('./routes/conversation.routes');
+const profileRoutes = require('./routes/profile.routes');
+
 // Routes
 app.use(skillRoutes);
 app.use(userRoutes);
@@ -39,14 +41,11 @@ app.use(conversationRoutes);
 app.use(messageRoutes);
 app.use(profileRoutes);
 
-// Error handling middleware (Should come after routes, before tokenHandler)
-app.use(errorHandler);
-
-// Token validation middleware
-app.use(tokenHandler);
+// Error handling middleware (Should come after routes)
+// app.use(errorHandler);
 
 // Define the port
-const port = process.env.PORT_NUMBER;
+const port = process.env.PORT_NUMBER || 3000; // Default to port 3000 if PORT_NUMBER is not defined
 
 // Start the server
 app.listen(port, () => {

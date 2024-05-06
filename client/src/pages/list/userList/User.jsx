@@ -1,7 +1,7 @@
 import "./user.scss"
 import Sidebar from "../../../components/sidebar/Sidebar"
 import Navbar from "../../../components/navbar/Navbar"
-import Datatable from "../../../components/datatable/userData/Datatable"
+import Datatable from "../../../components/datatable/users/Datatable"
 
 const User = () => {
   return (

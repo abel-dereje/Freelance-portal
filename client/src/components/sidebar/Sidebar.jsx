@@ -4,6 +4,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 // import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 // import CreditCardIcon from "@mui/icons-material/CreditCard";
 // import StoreIcon from "@mui/icons-material/Store";
+import PostAddIcon from '@mui/icons-material/PostAdd';
 import GroupIcon from '@mui/icons-material/Group';
 import InsertChartIcon from "@mui/icons-material/InsertChart";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
@@ -18,6 +19,8 @@ import AppsIcon from '@mui/icons-material/Apps';
 import SchoolIcon from '@mui/icons-material/School';
 import ChatIcon from '@mui/icons-material/Chat';
 import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
+
 
 
 
@@ -69,6 +72,18 @@ const Sidebar = () => {
             <li>
               <ChatIcon className="icon" />
               <span>Conversations</span>
+            </li>
+          </Link>
+          <Link to="/Jobs" style={{ textDecoration: "none" }}>
+            <li>
+              <PostAddIcon className="icon" />
+              <span>Post Job</span>
+            </li>
+          </Link>
+          <Link to="/findJobs" style={{ textDecoration: "none" }}>
+            <li>
+              <SearchOutlinedIcon className="icon" />
+              <span>Find Job</span>
             </li>
           </Link>
           <Link to="/your-network" style={{ textDecoration: "none" }}>
@@ -128,10 +143,12 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
+          <Link to="/" style={{ textDecoration: "none" }}>
           <li>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>
+          </Link>
         </ul>
       </div>
       <div className="bottom">

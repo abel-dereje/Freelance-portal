@@ -3,22 +3,22 @@ const skills_model = require('../models/skill.model');
 
 const createSkills = asyncHandler(async (req, res) => {
   //deconstruct the data from the request
-  const { userID, title, subTitle, category, totalStar, numberStar, address, location, bio, price } = req.body;
+  const { title, subTitle, category, totalStar, numberStar, address, location, bio, price } = req.body;
 
     // Validation check 
-    if (!userID || !title || !subTitle || !category || !totalStar || !numberStar || !address || !location || !bio || !price) {
+    if ( !title || !subTitle || !category || !totalStar || !numberStar || !address || !location || !bio || !price) {
        res.status(400);
        throw new Error(" all fields are required");
     }
     // if email  is Exist 
-  const userId= await skills_model.findOne({userID});
-  if(userId){
-      res.status(400);
-      throw new Error("User ID is Already Existed");
-  }
+  // const userId= await skills_model.findOne({userID});
+  // if(userId){
+  //     res.status(400);
+  //     throw new Error("User ID is Already Existed");
+  // }
 
     const create_skills = await skills_model.create({
-      userID,
+      user_id: req.user_id,
       title,
       subTitle,
       category,

@@ -1,7 +1,7 @@
 import "./skill.scss"
 import Sidebar from "../../../components/sidebar/Sidebar"
 import Navbar from "../../../components/navbar/Navbar"
-import Skills from "../../../components/datatable/skillData/Skills"
+import Skills from "../../../components/datatable/skills/Skills"
 
 const Skill = () => {
   return (

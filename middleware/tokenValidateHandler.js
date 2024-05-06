@@ -1,48 +1,55 @@
 const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
+import setAuthToken from './setAuthToken';
+
 
 const tokenHandler = asyncHandler(async (req, res, next) => {
-        // Check if the request is for signup route
-        if (req.path === '/signup') {
-            // If it is, simply proceed to the next middleware or route handler
-            return next();
+    try {
+        // Check if the request is for signup, login, or profiles routes
+        if (['/signup', '/login' ].includes(req.path.toLowerCase())) {
+            return next(); // Proceed to the next middleware or route handler
         }
-        // Check if the request is for login route
-        if (req.path === '/login') {
-            // If it is, simply proceed to the next middleware or route handler
-            return next();
+
+        let token;
+        const authHeader = req.headers.authorization || req.headers.Authorization;
+
+        // Check for JWT token in Authorization header
+        if (authHeader && authHeader.toLowerCase().startsWith('bearer')) {
+            token = authHeader.split(" ")[1];
+        } else if (req.cookies && req.cookies.accessToken) {
+            token = req.cookies.accessToken;
+        } else if (req.headers && req.headers.token) { // Add this block to check for token in headers
+            token = req.headers.token;
+        } else {
+            // Retrieve token from localStorage (for client-side applications)
+            token = localStorage.getItem("accessToken");
         }
-        // // Check if the request is for createProfile route
-        // if (req.path === '/createProfile') {
-        //     // If it is, simply proceed to the next middleware or route handler
-        //     return next();
-        // }
-        try {
-            let token;
-            let authHeader = req.headers.authorization || req.headers.Authorization;
-    
-            // Check for JWT token in Authorization header
-            if (authHeader && authHeader.startsWith('Bearer')) {
-                token = authHeader.split(" ")[1];
-            } else if (req.cookies && req.cookies.accessToken) {
-                token = req.cookies.accessToken;
-            }
-    
-            if (!token) {
-                return res.status(401).send({ error: "Token is required" });
-            }
-    
-            // Verify JWT token
-            const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
-    
-            // Attach user_id to request object
-            req.user_id = decoded.thisUser.id; // Assuming user_id is stored in thisUser.id
-    
-            next();
-        } catch (err) {
-            res.status(401).send({ error: "User not authenticated or token is not valid" });
+
+        if (!token) {
+            return res.status(401).json({ error: "Token is required" });
         }
+
+        // Verify JWT token
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET_KEY);
+
+        // Attach user_id to request object
+        req.user_id = decoded.thisUser.id; // Assuming user_id is stored in thisUser.id
+
+        next();
+    } catch (err) {
+        if (err instanceof jwt.TokenExpiredError) {
+            res.status(401).json({ error: "Token expired. Please log in again." });
+        } else {
+            console.error("Authentication Error:", err);
+            res.status(401).json({ error: "User not authenticated or token is not valid" });
+        }
+    }
 });
 
+const errorHandler = (error, req, res, next) => {
+    const statusCode = error.status || res.statusCode || 500;
+    const message = error.message || 'Internal Server Error';
+    res.status(statusCode).json({ error: message });
+};
 
-module.exports = tokenHandler;
+module.exports = { tokenHandler, errorHandler };

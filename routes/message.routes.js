@@ -1,12 +1,12 @@
 const express = require('express');
 
-const tokenHandler = require('../middleware/tokenValidateHandler');
+// const tokenHandler = require('../middleware/tokenValidateHandler');
 const { createMessage, getMessage, updateMessage, deleteMessage } = require('../controllers/messages.controller.js');
 
 const routerMessage = express.Router();
 
 // Use middleware for all routes on this router
-routerMessage.use(tokenHandler);
+// routerMessage.use(tokenHandler);
 
 
 // Define routes

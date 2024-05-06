@@ -8,10 +8,6 @@ const skillSchema = mongoose.Schema(
        required: false,
        ref:"User",
     },
-  userID: {
-    type: String,
-    required: true
-  },
   title: {
     type: String,
     required: true
@@ -25,11 +21,11 @@ const skillSchema = mongoose.Schema(
     required: true
   },
   totalStar: {
-    type: Number, // Assuming this is for a count, changed from String
+    type: String, // Assuming this is for a count, changed from String
     default: 0
    },
   numberStar: {
-    type: Number, // Changed from String if this is for a count of stars
+    type: String, // Changed from String if this is for a count of stars
     default: 0
   },
   address: {
@@ -45,7 +41,7 @@ const skillSchema = mongoose.Schema(
     required: true,
   },
   price: {
-    type: Number,
+    type: String,
     required: true,
   },
 },

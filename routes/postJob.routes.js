@@ -1,16 +1,20 @@
-const express = require('express');
+// jobPostRouter.js
 
-const tokenHandler = require('../middleware/tokenValidateHandler.js');
+const express = require('express');
+const jobPostRouter = express.Router();
+// const authMiddleware = require('../middleware/tokenValidateHandler');
+// const cors = require('cors');
+
+
 const { createJobPost, getJobPost, getJobPosts, updateJobPost, deleteJobPost } = require('../controllers/postJob.controller.js');
 
+// Use middleware for all routes on this router
+// jobPostRouter.use(cors());
 
-const jobPostRouter = express.Router();
-
-
-// Define routes for managing profile
-jobPostRouter.post('/createJobPost', createJobPost);
-jobPostRouter.get('/getJobPosts', getJobPosts);
-jobPostRouter.get('/getJobPost/:id', getJobPost);
+// Apply auth middleware to routes that require authentication
+jobPostRouter.get('/getJobPosts',  getJobPosts);
+jobPostRouter.get('/viewJob/:id', getJobPost);
+jobPostRouter.post('/jobs', createJobPost);
 jobPostRouter.put('/updateJobPost/:id', updateJobPost);
 jobPostRouter.delete('/deleteJobPost/:id', deleteJobPost);
 

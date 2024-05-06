@@ -4,8 +4,8 @@ const orderSchema = mongoose.Schema(
   {
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
+      required: false,
       ref: "User",
-      required: true
     },
     jobTitle: {
       type: String,
@@ -23,13 +23,13 @@ const orderSchema = mongoose.Schema(
       type: String,
       required: true,
     },
-    postReview: {
-      type: String,
+    projectCategory: {
+      type: [String], // Change type to an array of strings
       required: true,
     },
   },
   {
-    timestamp: true,
+    timestamps: true,
   }
 );
 

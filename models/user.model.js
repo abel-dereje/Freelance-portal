@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 // Define enum for roles
 const validRoles = ['admin', 'freelancer', 'employer'];
+const userStatus = ['active', 'inactive'];
 
 const userSchema = mongoose.Schema(
   {
@@ -28,7 +29,11 @@ const userSchema = mongoose.Schema(
     role: {
       type: String,
       enum: validRoles, // Use enum to restrict values to valid roles
-      default: 'freelancer', // Set a default role (e.g., 'freelancer')
+    },
+    status: {
+      type: String,
+      enum: userStatus, // Use enum to restrict values to valid roles
+      default: 'active', // Set a default role (e.g., 'freelancer')
     },
   },
   {

@@ -1,48 +1,48 @@
 const { Timestamp } = require("mongodb");
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema(
+const profileSchema = mongoose.Schema(
   {
     user_id:{
       type: mongoose.Schema.Types.ObjectId,
+       required: true,
        ref:"User",
-       required: true
-  },
+    },
     title: {
       type: String,
-      required: [true, "Please enter your title"],
+      required: true,
     },
     hourlyRate: {
       type: String,
-      required: [true, "Please enter an hourly rate"],
+      required: true,
     },
     workHistory: {
       type: String,
-      required: false,
+      required: true,
     },
     portfolio: {
       type: String,
-      required: false,
+      required: true,
     },
     skill: {
       type: String,
-      required: false,
+      required: true,
     },
     testimonial: {
       type: String,
-      required: false,
+      required: true,
     },
     certification: {
       type: String,
-      required: false,
+      required: true,
     },
     employmentHistory: {
       type: String,
-      required: false,
+      required: true,
     },
     otherExperience: {
       type: String,
-      required: false,
+      required: true,
     },
   },
   {
@@ -50,4 +50,4 @@ const userSchema = mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Profile", userSchema);
+module.exports = mongoose.model("Profile", profileSchema);

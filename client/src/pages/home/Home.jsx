@@ -2,7 +2,7 @@ import React from 'react';
 import Sidebar from '../../components/sidebar/Sidebar';
 import Navbar from '../../components/navbar/Navbar';
 import Widget from '../../components/widget/Widget';
-import Dashboard from '../../components/datatable/dashboardData/Dashboard';
+import Dashboard from '../../components/datatable/dashboard/Dashboard';
 import Chart from '../../components/chart/Chart';
 import Table from '../../components/table/Table';
 import "./home.scss";

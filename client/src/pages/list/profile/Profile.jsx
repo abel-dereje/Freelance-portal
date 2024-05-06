@@ -1,7 +1,7 @@
 import "./profile.scss"
 import Sidebar from "../../../components/sidebar/Sidebar"
 import Navbar from "../../../components/navbar/Navbar"
-import Profiles from "../../../components/datatable/profileData/Profiles"
+import Profiles from "../../../components/datatable/profiles/Profiles"
 
 const Profile = () => {
   return (

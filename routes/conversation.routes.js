@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 
-const tokenHandler = require('../middleware/tokenValidateHandler');
+// const tokenHandler = require('../middleware/tokenValidateHandler');
 const { createConversation, getConversations, getConversation, updateConversation, deleteConversation } = require('../controllers/conversations.controller.js');
 
 const routerConversation = express.Router();

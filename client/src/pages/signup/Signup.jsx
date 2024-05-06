@@ -9,6 +9,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [country, setCountry] = useState('');
+  const [role, setRole] = useState('');
   const [countries, setCountries] = useState([]);
   const navigate = useNavigate();
 
@@ -34,7 +35,8 @@ const Signup = () => {
         lastName,
         email,
         password,
-        country
+        country,
+        role
       });
 
       console.log('Successfully registered:', response.data);
@@ -103,6 +105,32 @@ const Signup = () => {
             ))}
           </select>
         </div>
+        <div className='form-group'>
+        <label>Select Role</label>
+        <div className="radio-wrapper">
+          <label htmlFor='freelancer'>
+            <input
+              type='radio'
+              id='freelancer'
+              name='freelancer'
+              value='freelancer'
+              checked={role === 'freelancer'}
+              onChange={(e) => setRole(e.target.value)}
+            /> Freelancer
+          </label>
+          <label htmlFor='employer'>
+            <input
+              type='radio'
+              id='employer'
+              name='employer'
+              value='employer'
+              checked={role === 'employer'}
+              onChange={(e) => setRole(e.target.value)}
+            /> Employer
+          </label>
+        </div>
+      </div>
+
         <button type='submit'>Register</button>
       </form>
       <div className='additional-link'>
