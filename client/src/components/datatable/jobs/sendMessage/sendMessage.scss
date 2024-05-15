@@ -1,0 +1,56 @@
+.single {
+    display: flex;
+    width: 100%;
+    .singleContainer {
+      flex: 6;
+  
+  h4 {
+    text-align: left;
+  }
+  
+  .messageInput {
+    width: 50%;
+    height: 75px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .errorMessage {
+    color: red;
+    margin-bottom: 10px;
+  }
+  
+  .sendButton {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    background-color: #01897c;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .sendButton:disabled {
+    background-color: #ccc;
+  }
+  
+  .successMessage {
+    color: green;
+    margin-top: 10px;
+    text-align: center;
+  }
+}
+}
+
+/*
+.sendMessageContainer {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+*/

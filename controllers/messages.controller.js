@@ -2,23 +2,27 @@ const asyncHandler = require("express-async-handler");
 const messages_model  = require('../models/message.model');
 
 const createMessage = asyncHandler(async (req, res) => {
-    //deconstruct the data from the request
-    const { conversationId, userId, desc } = req.body;
+  // Deconstruct the data from the request body
+  const { conversationId, desc } = req.body;
+  const userId = req.params.userId; // Access userId from the URL parameter
 
-    // Validation check 
-    if (!conversationId || !userId || !desc) {
-        res.status(400);
-       throw new Error(" all fields are required");
-    }
-    const create_messages = await messages_model.create({
-        conversationId,
-        userId,
-        desc
-      });
-  
-      res.status(201).json(create_messages);
-      console.log("The Created New Message is:", req.body);
-  });
+  try {
+    // Create a new message using the message model
+    const createdMessage = await messages_model.create({
+      conversationId,
+      userId,
+      desc
+    });
+
+    // Send the created message as a response
+    res.status(201).json(createdMessage);
+    console.log("The Created New Message is:", createdMessage);
+  } catch (error) {
+    // Handle any errors that occur during message creation
+    res.status(500).json({ message: "Failed to create message", error: error.message });
+  }
+});
+
 
   //Get single message routes by ID
   const getMessage = asyncHandler(async (req, res) => {

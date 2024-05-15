@@ -1,0 +1,25 @@
+.job-title {
+  text-decoration: none;
+  cursor: pointer;
+  color: green;
+}
+
+.job-title:hover {
+  text-decoration: underline;
+  color: green;
+}
+
+.card-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.card-link:hover {
+  text-decoration: none;
+}
+.apply-now-button {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  color: green;
+}
