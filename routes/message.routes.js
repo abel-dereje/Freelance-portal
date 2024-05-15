@@ -10,7 +10,7 @@ const routerMessage = express.Router();
 
 
 // Define routes
-routerMessage.route("/messages/:userId").post(createMessage);
+routerMessage.route("/messages").post(createMessage);
 
 routerMessage.route("/messages/:id").get(getMessage).put(updateMessage).delete(deleteMessage);
 
