@@ -1,14 +1,14 @@
 import axios from 'axios';
 
-const setAuthToken = (token) => {
+export const setAuthToken = (token, role, id) => {
   if (token) {
-    // Apply the token to every request header
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    localStorage.setItem('accessToken', token);
+    if (role) localStorage.setItem('userRole', role);
+    if (id) localStorage.setItem('userId', id);
   } else {
-    // Delete the token from the request header
     delete axios.defaults.headers.common['Authorization'];
-    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userId');
   }
 };
 

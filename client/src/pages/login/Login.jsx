@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import setAuthToken from '../../components/datatable/setAuth';
 import './login.scss';
 
 const Login = () => {
@@ -10,20 +11,38 @@ const Login = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     try {
       const response = await axios.post('http://localhost:4000/login', { 
         email,
         password
       });
-
+      
+      console.log('Response data:', response.data); // Log the response data
+  
+      const { accessToken, userRole, userId } = response.data;
+  
+      // Check if the user data is valid
+      if (!accessToken || !userRole || !userId) {
+        throw new Error('Invalid user data received from the server');
+      }
+  
+      // Set the auth token in Axios
+      setAuthToken(accessToken);
+  
+      // Store the token, role, and userId in localStorage
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('userRole', userRole);
+      localStorage.setItem('userId', userId);
+  
       console.log('Login successful:', response.data);
-      navigate('/users');
+      navigate('/skills');
     } catch (error) {
       console.error('Login failed:', error);
       // Handle login failure
     }
   };
+  
 
   return (
     <div className='auth-page'>

@@ -19,9 +19,32 @@ const Datatable = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setAuthToken(localStorage.getItem("accessToken"));
-        const response = await axios.get("http://localhost:4000/users");
-        setData(response.data);
+        const token = localStorage.getItem("accessToken");
+        const role = localStorage.getItem("userRole");
+        const userId = localStorage.getItem("userId");
+
+        if (!token) {
+          throw new Error("No access token found");
+        }
+
+        setAuthToken(token);
+
+        if (role === "admin") {
+          const response = await axios.get("http://localhost:4000/users", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          setData(response.data);
+        } else {
+          const response = await axios.get(`http://localhost:4000/user/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          setData([response.data]);
+        }
+
       } catch (error) {
         console.error("Error fetching user data:", error);
         setError("Error fetching data. Please try again later.");
@@ -53,20 +76,18 @@ const Datatable = () => {
   const toggleActive = async (id) => {
     try {
       const token = localStorage.getItem("accessToken");
-      // Fetch the current status of the user
       const user = data.find((user) => user._id === id);
-      const status = user.status === 'active' ? 'inactive' : 'active'; // Toggle the status
-  
+      const status = user.status === 'active' ? 'inactive' : 'active';
+
       const response = await axios.put(
         `http://localhost:4000/status/${id}`,
-        { status }, // Provide the toggled status in the request body
+        { status },
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      // Assuming the response contains updated user data with status
       setData((prevData) =>
         prevData.map((user) =>
           user._id === id ? { ...user, status: response.data.user.status } : user
@@ -80,11 +101,9 @@ const Datatable = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  
 
   const actionColumn = (params) => (
     <div className="cellAction">
-      {/* <Link to={`/users/editUser/${params.row._id}`} style={{ textDecoration: "none" }}> */}
       <Link to={`/users/editUser/${params.row._id}`} style={{ textDecoration: "none" }}>
         <button className="editButton">
           <EditIcon />
@@ -101,7 +120,6 @@ const Datatable = () => {
 
   const columns = [
     { field: "index", headerName: "No", width: 80, renderCell: (params) => params.row.id + 1 },
-    // { field: "image", headerName: "Image", width: 150 },
     { field: "firstName", headerName: "First Name", width: 150 },
     { field: "lastName", headerName: "Last Name", width: 150 },
     { field: "email", headerName: "Email", width: 200 },

@@ -1,4 +1,4 @@
-import React, { useState, useEffect }  from 'react'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
@@ -9,9 +9,6 @@ import RemoveRedEyeIcon from '@mui/icons-material/RemoveRedEye';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-
-
-
 const Skills = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -20,9 +17,30 @@ const Skills = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setAuthToken(localStorage.getItem("accessToken"));
+        const token = localStorage.getItem("accessToken");
+        const role = localStorage.getItem("userRole");
+        const userId = localStorage.getItem("userId");
 
-        const response = await axios.get("http://localhost:4000/getSkills");
+        if (!token) {
+          throw new Error("No access token found");
+        }
+
+        setAuthToken(token);
+
+        let response;
+        if (role === "admin") {
+          response = await axios.get("http://localhost:4000/getSkills", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+        } else {
+          response = await axios.get(`http://localhost:4000/skill/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+        }
         setData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -38,19 +56,18 @@ const Skills = () => {
   const getRowId = (row) => row._id;
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div>Error: {error}</div>; // Display error message
 
-  // Define custom action renderer for the action column
   const actionColumn = (params) => (
     <div className="cellAction">
-    <Link
-        to={`/skills/viewSkill${params.row._id}`} 
+      <Link
+        to={`/skills/viewSkill/${params.row._id}`} 
         style={{ textDecoration: "none" }}
       >
         <div className="viewButton"><RemoveRedEyeIcon/></div>
       </Link>
       <Link
-        to={`/skills/editSkill${params.row._id}`}
+        to={`/skills/editSkill/${params.row._id}`}
         style={{ textDecoration: "none" }}
       >
         <div className="editButton"><EditIcon/></div>
@@ -75,19 +92,24 @@ const Skills = () => {
       field: "action",
       headerName: "Action",
       width: 200,
-      renderCell: actionColumn, // Use the custom action renderer
+      renderCell: actionColumn,
     },
   ];
 
   const handleDelete = async (id) => {
     try {
-      // Send delete request to the backend to delete the user
-      await axios.delete(`http://localhost:4000/skill/${id}`);
-      // Update the data state to reflect the changes
+      const token = localStorage.getItem("accessToken");
+      setAuthToken(token);
+
+      await axios.delete(`http://localhost:4000/skill/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setData((prevData) => prevData.filter((row) => row._id !== id));
     } catch (error) {
-      console.error(`Error deleting user with ID ${id}:`, error);
-      // Handle error appropriately
+      console.error(`Error deleting skill with ID ${id}:`, error);
+      setError("Error deleting skill. Please try again later."); // Update error state
     }
   };
 
@@ -112,4 +134,4 @@ const Skills = () => {
   );
 };
 
-export default Skills
+export default Skills;
