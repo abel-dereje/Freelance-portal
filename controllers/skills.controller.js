@@ -10,7 +10,7 @@ const createSkills = asyncHandler(async (req, res) => {
   }
 
   const create_skills = await skills_model.create({
-    user_id: req.user.id,
+    user_id: req.user_id,
     title,
     subTitle,
     category,
@@ -39,7 +39,7 @@ const getSkills = asyncHandler(async (req, res) => {
 // Get a single skill by ID
 const getSkill = async (req, res) => {
   try {
-    const skill = await Skill.findById(req.params.id);
+    const skill = await skills_model.findById(req.params.id);
     if (!skill) {
       res.status(404).json({ message: "Skill not found" });
       return;
@@ -50,35 +50,41 @@ const getSkill = async (req, res) => {
   }
 };
 
+// const updateSkill = asyncHandler(async (req, res) => {
+//   const find_user_by_id = await skills_model.findById(req.params.id);
+//   if (!find_user_by_id) {
+//     res.status(404);
+//     throw new Error("Skill not found");
+//   }
+//   if (find_user_by_id.user_id.toString() !== req.user.id) {
+//     res.status(403);
+//     throw new Error("User don't have permission to update other user skills");
+//   }
+//   const update_user_by_id = await skills_model.findByIdAndUpdate(req.params.id, req.body, {
+//     new: true,
+//     runValidators: true,
+//   });
+//   res.status(200).json(update_user_by_id);
+// });
 const updateSkill = asyncHandler(async (req, res) => {
+  // first get the contact by its id
   const find_user_by_id = await skills_model.findById(req.params.id);
   if (!find_user_by_id) {
     res.status(404);
     throw new Error("Skill not found");
   }
-  if (find_user_by_id.user_id.toString() !== req.user.id) {
-    res.status(403);
-    throw new Error("User don't have permission to update other user skills");
-  }
-  const update_user_by_id = await skills_model.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-  res.status(200).json(update_user_by_id);
+  // then update the skill
+  const update_skill = await skills_model.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true }
+  );
+  res.status(200).json(update_skill);
 });
 
 const deleteSkill = asyncHandler(async (req, res) => {
-  const find_user_by_id = await skills_model.findById(req.params.id);
-  if (!find_user_by_id) {
-    res.status(404);
-    throw new Error("Skill not found");
-  }
-  if (find_user_by_id.user_id.toString() !== req.user.id) {
-    res.status(403);
-    throw new Error("User don't have permission to delete other user skills");
-  }
-  await find_user_by_id.remove();
-  res.status(200).json({ message: `The user skill deleted successfully` });
+  const delete_skill = await skills_model.findByIdAndDelete(req.params.id);
+  res.status(200).json(delete_skill);
 });
 
 module.exports = { createSkills, getSkill, getSkills, updateSkill, deleteSkill };

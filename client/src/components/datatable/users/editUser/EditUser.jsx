@@ -1,10 +1,10 @@
-import "./datatable.scss";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
 import Sidebar from "../../../sidebar/Sidebar";
 import Navbar from "../../../navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState, useEffect } from "react";
-import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import "./datatable.scss";
 
 const EditUser = ({ title }) => {
   const { id } = useParams();
@@ -13,46 +13,67 @@ const EditUser = ({ title }) => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [role, setRole] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const [confirmationVisible, setConfirmationVisible] = useState(false);
+  const [error, setError] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch user data when the component mounts
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`http://localhost:4000/user/${id}`);
         const userData = response.data;
-        // Populate the form fields with user data
         setFirstName(userData.firstName);
         setLastName(userData.lastName);
         setEmail(userData.email);
         setRole(userData.role);
-        // You can set other fields here if needed
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
     };
 
-    fetchUserData(); // Call the fetchUserData function when the component mounts
-  }, [id]); // Add id as a dependency so that the effect runs whenever the id changes
+    fetchUserData();
+  }, [id]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError('');
 
-    try {
-      const response = await axios.put(`http://localhost:4000/updateUser/${id}`, {
-        firstName,
-        lastName,
-        email,
-        role,
-        file,
-      });
-
-      console.log('User information updated:', response.data);
-      navigate('/users');
-    } catch (error) {
-      console.error('Update failed:', error);
-      // Handle update failure
+    // Simple email validation
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
     }
+
+    // Check if other fields are empty
+    if (!firstName || !lastName) {
+      setError('Please fill in all required fields.');
+      return;
+    }
+
+    // If all validations pass, proceed with update
+    setConfirmationVisible(true);
+  };
+
+  const handleConfirmation = async (confirmed) => {
+    if (confirmed) {
+      try {
+        const response = await axios.put(`http://localhost:4000/updateUser/${id}`, {
+          firstName,
+          lastName,
+          email,
+          role,
+          file,
+        });
+        console.log('User information updated:', response.data);
+        setSuccessMessage('User information updated successfully!');
+      } catch (error) {
+        console.error('Update failed:', error);
+      }
+    }
+    navigate('/users');
+    setConfirmationVisible(false);
   };
 
   return (
@@ -95,6 +116,7 @@ const EditUser = ({ title }) => {
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
                   placeholder="Enter first name"
+                  required
                 />
               </div>
               <div className='formInput'>
@@ -105,6 +127,7 @@ const EditUser = ({ title }) => {
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
                   placeholder="Enter last name"
+                  required
                 />
               </div>
               <div className='formInput'>
@@ -115,6 +138,7 @@ const EditUser = ({ title }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email"
+                  required
                 />
               </div>
               <div className='form-group'>
@@ -127,6 +151,7 @@ const EditUser = ({ title }) => {
                     value='freelancer'
                     checked={role === 'freelancer'}
                     onChange={(e) => setRole(e.target.value)}
+                    // required
                   /> Freelancer
                 </label>
                 <label htmlFor='employer' className="radio-label">
@@ -137,11 +162,36 @@ const EditUser = ({ title }) => {
                     value='employer'
                     checked={role === 'employer'}
                     onChange={(e) => setRole(e.target.value)}
+                    // required
                   /> Employer
                 </label>
               </div>
               <button type='submit'>Update</button>
             </form>
+            {confirmationVisible && (
+              <div className='popup'>
+                <div className='popup-content'>
+                  <p>Are you sure you want to update this user?</p>
+                  <button onClick={() => handleConfirmation(true)}>Yes</button>
+                  <button onClick={() => handleConfirmation(false)}>No</button>
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className='popup'>
+                <div className='popup-content error'>
+                  <p>{error}</p>
+                </div>
+              </div>
+            )}
+            {successMessage && (
+              <div className='popup'>
+                <div className='popup-content success'>
+                  <p>{successMessage}</p>
+                  <button onClick={() => setSuccessMessage('')}>Close</button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

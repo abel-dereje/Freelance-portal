@@ -1,92 +1,111 @@
 .auth-page {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  form {
     width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  
-    form {
-      width: 100%;
-      max-width: 300px;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  
-      h2 {
-        text-align: center;
-        margin-bottom: 20px;
+    max-width: 300px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
       }
-  
-      .form-group {
-        margin-bottom: 15px;
-  
-        label {
-          display: block;
-          margin-bottom: 5px;
-          font-weight: bold;
-        }
-  
-        input {
-          width: 100%;
-          padding: 8px;
-          font-size: 16px;
-          border: 1px solid #ccc;
-          border-radius: 5px;
-        }
-      }
-  
-      button[type='submit'] {
+
+      input {
         width: 100%;
-        padding: 10px;
-        background-color: teal;
-        color: #fff;
-        border: none;
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
         border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-  
-        &:hover {
-          background-color: teal;
-        }
       }
     }
-  
-    .additional-links {
+
+    button[type='submit'] {
       width: 100%;
-      max-width: 300px;
-      margin-top: 20px;
-      display: flex;
-      justify-content: space-between;
-  
-      button {
-        padding: 10px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-  
-        &:hover {
-          opacity: 0.8;
-        }
-      }
-  
-      .signup-button {
-        // background-color: #54be6d;
-        color: #7451f8;
-        text-align: justify;
-        text-decoration: none;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-      }
-  
-      .forgot-password-button {
-        // background-color: #de4e5d;
-        color: #de4e5d;
-        text-align: justify;
-        text-decoration: none;
-        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      padding: 10px;
+      background-color: teal;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        background-color: #00796b;
       }
     }
   }
-  
+
+  .additional-links {
+    width: 100%;
+    max-width: 300px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    .signup-button {
+      color: #7451f8;
+      text-align: justify;
+      text-decoration: none;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+
+    .forgot-password-button {
+      color: #de4e5d;
+      text-align: justify;
+      text-decoration: none;
+      font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    }
+  }
+
+  .error-message {
+    color: #fff;
+    background-color: #e57373;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .success-message {
+    color: #fff;
+    background-color: #81c784;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+}

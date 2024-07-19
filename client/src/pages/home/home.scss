@@ -29,3 +29,17 @@
     }
   }
 }
+.home {
+  display: flex;
+}
+
+.homeContainer {
+  flex: 1;
+  padding: 20px;
+
+  .cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+}

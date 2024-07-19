@@ -33,6 +33,7 @@ import FindJobs from "./components/datatable/jobs/findJob/findJobWidget/FindJobs
 import ViewJob2 from "./components/datatable/jobs/findJob/viewJobDetail/ViewJob";
 import ApplyJob from "./components/datatable/jobs/findJob/applyJob/Widget";
 import SendMessage from "./components/datatable/jobs/sendMessage/SendMessage";
+import CreateSkill from "./components/datatable/profiles/createProfile/CreateProfile";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -61,6 +62,10 @@ function App() {
               <Route index element={<Profile />} />
               {/* <Route path=":userId" element={<ViewProfile />} /> */}
               <Route
+                path="createProfile"
+                element={<CreateSkill title="Add New Profile" />}
+              />
+              <Route
                path={`viewProfile/:id`}
                 element={<ViewProfile />}
               />
@@ -80,11 +85,11 @@ function App() {
                 element={<AddSkill title="Add New Skill" />}
               />
               <Route
-                path="viewSkill:id"
+                path="viewSkill/:id"
                 element={<ViewSkill title="View Skill" />}
               />
                <Route
-                path="editSkill:id"
+                path="editSkill/:id"
                 element={<EditSkill title="Edit Skill" />}
               />
             </Route>

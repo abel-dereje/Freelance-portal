@@ -83,7 +83,7 @@ const updateJobPost = asyncHandler(async (req, res) => {
     res.status(200).json(update_jobPost);
   });
 
-  //Get delete skill routes by ID
+  //delete job routes by ID
 const deleteJobPost = asyncHandler(async (req, res) => {
     const delete_jobPost = await Order.findByIdAndDelete(req.params.id);
     res.status(200).json(delete_jobPost);

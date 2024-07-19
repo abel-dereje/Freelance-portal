@@ -1,4 +1,4 @@
-import "./addSkill.scss";
+import "./createProfile.scss";
 import Sidebar from "../../../sidebar/Sidebar";
 import Navbar from "../../../navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
@@ -6,17 +6,17 @@ import { useState } from "react";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const AddSkill = ({ title1 }) => {
+const CreateProfile = ({ title1 }) => {
   const [file, setFile] = useState("");
   const [title, setTitle] = useState('');
-  const [subTitle, setSubTitle] = useState('');
-  const [category, setCategory] = useState('');
-  const [totalStar, setTotalStar] = useState('');
-  const [numberStar, setNumberStar] = useState('');
-  const [address, setAddress] = useState('');
-  const [location, setLocation] = useState('');
-  const [bio, setBio] = useState('');
-  const [price, setPrice] = useState('');
+  const [hourlyRate, setHourlyRate] = useState('');
+  const [workHistory, setWorkHistory] = useState('');
+  const [portfolio, setPortfolio] = useState('');
+  const [skill, setSkill] = useState('');
+  const [testimonial, setTestimonial] = useState('');
+  const [certification, setCertification] = useState('');
+  const [employmentHistory, setEmployment] = useState('');
+  const [otherExperience, setOtherExperience] = useState('');
  
   const navigate = useNavigate();
 
@@ -24,20 +24,20 @@ const AddSkill = ({ title1 }) => {
     event.preventDefault(); 
 
     try {
-      const response = await axios.post('http://localhost:4000/skills', {
+      const response = await axios.post('http://localhost:4000/createProfile', {
         title,
-        subTitle,
-        category,
-        totalStar,
-        numberStar,
-        address,
-        location,
-        bio,
-        price
+        hourlyRate,
+        workHistory,
+        portfolio,
+        skill,
+        testimonial,
+        certification,
+        employmentHistory,
+        otherExperience
       });
 
       console.log('Successfully registered:', response.data);
-      navigate('/skills');
+      navigate('/profiles');
     } catch (error) {
       console.error('Registration failed:', error);
       // Handle registration failure
@@ -90,91 +90,90 @@ const AddSkill = ({ title1 }) => {
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='subTitle'>Sub Title</label>
+          <label htmlFor='hourlyRate'>Hourly rate</label>
           <input
             type='text'
-            id='subTitle'
-            value={subTitle}
-            onChange={(e) => setSubTitle(e.target.value)}
-            placeholder="Enter subtitle"
+            id='hourlyRate'
+            value={hourlyRate}
+            onChange={(e) => setHourlyRate(e.target.value)}
+            placeholder="Enter Hourly Rate"
             required
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='category'>Category</label>
+          <label htmlFor='workHistory'>Work history</label>
           <input
             type='text'
-            id='category'
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            placeholder="Enter category"
+            id='workHistory'
+            value={workHistory}
+            onChange={(e) => setWorkHistory(e.target.value)}
+            placeholder="Enter work history"
             required
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='totalStar'>Total Star</label>
+          <label htmlFor='portfolio'>Portfolio</label>
           <input
             type='text'
-            id='totalStar'
-            value={totalStar}
-            onChange={(e) => setTotalStar(e.target.value)}
-            placeholder="Enter total star"
+            id='portfolio'
+            value={portfolio}
+            onChange={(e) => setPortfolio(e.target.value)}
+            placeholder="Enter Portfolio"
             required
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='numberStar'>Number Star</label>
+          <label htmlFor='skill'>Skill</label>
           <input
             type='text'
-            id='numberStar'
-            value={numberStar}
-            onChange={(e) => setNumberStar(e.target.value)}
-            placeholder="Enter number star"
+            id='skill'
+            value={skill}
+            onChange={(e) => setSkill(e.target.value)}
+            placeholder="Enter skill"
             required
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='address'>Address</label>
+          <label htmlFor='testimonial'>Testimonial</label>
           <input
             type='text'
-            id='address'
-            value={address}
-            onChange={(e) => setAddress(e.target.value)}
-            placeholder="Enter address"
+            id='testimonial'
+            value={testimonial}
+            onChange={(e) => setTestimonial(e.target.value)}
+            placeholder="Enter testimonial"
             required
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='location'>Location</label>
+          <label htmlFor='certification'>Certification</label>
           <input
             type='text'
-            id='location'
-            value={location}
-            onChange={(e) => setLocation(e.target.value)}
-            placeholder="Enter location"
+            id='certification'
+            value={certification}
+            onChange={(e) => setCertification(e.target.value)}
+            placeholder="Enter certification"
             required
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='bio'>Biography</label>
+          <label htmlFor='employmentHistory'>Employment history</label>
           <input
             type='text'
-            id='bio'
-            value={bio}
-            onChange={(e) => setBio(e.target.value)}
-            placeholder="Enter bio"
+            id='employmentHistory'
+            value={employmentHistory}
+            onChange={(e) => setEmployment(e.target.value)}
+            placeholder="Enter employment history"
             required
           />
         </div>
         <div className='formInput'>
-          <label htmlFor='price'>Price</label>
+          <label htmlFor='otherExperience'>otherExperience</label>
           <input
             type='text'
-            id='price'
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            placeholder="Enter price"
-            required
+            id='otherExperience'
+            value={otherExperience}
+            onChange={(e) => setOtherExperience(e.target.value)}
+            placeholder="Enter other experience"
           />
         </div>
         
@@ -187,4 +186,4 @@ const AddSkill = ({ title1 }) => {
   );
 };
 
-export default AddSkill;
+export default CreateProfile;

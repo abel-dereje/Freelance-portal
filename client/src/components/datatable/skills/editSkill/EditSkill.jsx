@@ -49,7 +49,7 @@ const EditSkill = ({ title1 }) => {
     event.preventDefault();
 
     try {
-      const response = await axios.put(`http://localhost:4000/skill/${id}`, {
+      const response = await axios.put(`http://localhost:4000/updateSkill/${id}`, {
         title,
         subTitle,
         category,

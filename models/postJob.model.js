@@ -4,7 +4,6 @@ const orderSchema = mongoose.Schema(
   {
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
-      required: false,
       ref: "User",
     },
     jobTitle: {
@@ -30,7 +29,7 @@ const orderSchema = mongoose.Schema(
 
     applyJob: {
       type:String,
-      required: true,
+      required: false,
     },
   },
   {

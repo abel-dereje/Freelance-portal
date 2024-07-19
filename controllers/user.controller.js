@@ -79,7 +79,6 @@ const updateUser = asyncHandler(async (req, res) => {
       res.status(404);
       throw new Error("Job not found");
     }
-    // then update the skill
     const update_user = await userModel.findByIdAndUpdate(
       req.params.id,
       req.body,
@@ -97,13 +96,21 @@ const updateUser = asyncHandler(async (req, res) => {
     }
   
     const thisUser = await userModel.findOne({ email });
+
+    if (!thisUser) {
+      return res.status(401).send('Invalid Email Address or Password');
+  }
+
+  if (thisUser.status !== 'active') {
+      return res.status(403).send('User account is not active');
+  }
   
     if (thisUser && (await bcrypt.compare(password, thisUser.password))) {
       const accessToken = jwt.sign(
         {
           thisUser: {
             email: thisUser.email,
-            id: thisUser._id, // Ensure the correct user ID is used
+            id: thisUser._id, 
             role: thisUser.role,
           },
         },
